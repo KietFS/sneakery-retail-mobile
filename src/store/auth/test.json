@@ -1,0 +1,30 @@
+{
+  "message": "Network Error",
+  "name": "AxiosError",
+  "stack": "AxiosError: Network Error\n    at handleError (http://localhost:8081/index.bundle//&platform=ios&dev=true&lazy=true&minify=false&inlineSourceMap=false&modulesOnly=false&runModule=true&app=org.reactjs.native.example.SneakeryRetail:213667:39)\n    at call (native)\n    at dispatchEvent (http://localhost:8081/index.bundle//&platform=ios&dev=true&lazy=true&minify=false&inlineSourceMap=false&modulesOnly=false&runModule=true&app=org.reactjs.native.example.SneakeryRetail:36376:31)\n    at setReadyState (http://localhost:8081/index.bundle//&platform=ios&dev=true&lazy=true&minify=false&inlineSourceMap=false&modulesOnly=false&runModule=true&app=org.reactjs.native.example.SneakeryRetail:35578:33)\n    at __didCompleteResponse (http://localhost:8081/index.bundle//&platform=ios&dev=true&lazy=true&minify=false&inlineSourceMap=false&modulesOnly=false&runModule=true&app=org.reactjs.native.example.SneakeryRetail:35364:29)\n    at apply (native)\n    at anonymous (http://localhost:8081/index.bundle//&platform=ios&dev=true&lazy=true&minify=false&inlineSourceMap=false&modulesOnly=false&runModule=true&app=org.reactjs.native.example.SneakeryRetail:35506:52)\n    at apply (native)\n    at emit (http://localhost:8081/index.bundle//&platform=ios&dev=true&lazy=true&minify=false&inlineSourceMap=false&modulesOnly=false&runModule=true&app=org.reactjs.native.example.SneakeryRetail:2640:40)\n    at call (native)\n    at apply (native)\n    at emit (http://localhost:8081/index.bundle//&platform=ios&dev=true&lazy=true&minify=false&inlineSourceMap=false&modulesOnly=false&runModule=true&app=org.reactjs.native.example.SneakeryRetail:2391:126)\n    at apply (native)\n    at __callFunction (http://localhost:8081/index.bundle//&platform=ios&dev=true&lazy=true&minify=false&inlineSourceMap=false&modulesOnly=false&runModule=true&app=org.reactjs.native.example.SneakeryRetail:3609:38)\n    at anonymous (http://localhost:8081/index.bundle//&platform=ios&dev=true&lazy=true&minify=false&inlineSourceMap=false&modulesOnly=false&runModule=true&app=org.reactjs.native.example.SneakeryRetail:3326:31)\n    at __guard (http://localhost:8081/index.bundle//&platform=ios&dev=true&lazy=true&minify=false&inlineSourceMap=false&modulesOnly=false&runModule=true&app=org.reactjs.native.example.SneakeryRetail:3543:15)\n    at callFunctionReturnFlushedQueue (http://localhost:8081/index.bundle//&platform=ios&dev=true&lazy=true&minify=false&inlineSourceMap=false&modulesOnly=false&runModule=true&app=org.reactjs.native.example.SneakeryRetail:3325:21)",
+  "config": {
+    "transitional": {
+      "silentJSONParsing": true,
+      "forcedJSONParsing": true,
+      "clarifyTimeoutError": false
+    },
+    "adapter": ["xhr", "http"],
+    "transformRequest": [null],
+    "transformResponse": [null],
+    "timeout": 0,
+    "xsrfCookieName": "XSRF-TOKEN",
+    "xsrfHeaderName": "X-XSRF-TOKEN",
+    "maxContentLength": -1,
+    "maxBodyLength": -1,
+    "env": {},
+    "headers": {
+      "Accept": "application/json, text/plain, */*",
+      "Content-Type": "application/json"
+    },
+    "method": "post",
+    "url": "https://localhost:4000/user/register",
+    "data": "{\"username\":\"Kiiiiethuiynh\",\"email\":\"Ttuankiet270802@gmail.com\",\"password\":\"123456\",\"phoneNumber\":\"0819190220\"}"
+  },
+  "code": "ERR_NETWORK",
+  "status": null
+}
