@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const postSignIn = async (email: string, password: string) => {
   try {
-    const response = await axios.post(`${apiURl}/user/login`, {
+    const response = await axios.post(`${apiURl}/users/login`, {
       email: email,
       password: password,
     });
@@ -20,36 +20,6 @@ const getWalletInfoService = async (id: string) => {
     );
     if (response) return response;
   } catch (error: any) {
-    return error;
-  }
-};
-
-const depositService = async (
-  userId: number,
-  chargeAmount: number,
-  token: string,
-) => {
-  console.log('charge amount', chargeAmount);
-  try {
-    const response = await axios.post(
-      'https://sneakery.herokuapp.com/api/transaction/deposit',
-      {
-        userId: Number(userId),
-        amount: Number(chargeAmount),
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      },
-    );
-    if (response) {
-      console.log('DEPOSIT RESPONSE', response?.data);
-      // window.open(data.data.message);
-      return response;
-    }
-  } catch (error: any) {
-    console.log('DEPOSIT ERROR', error?.response);
     return error;
   }
 };
@@ -83,4 +53,15 @@ const registerService = async (
   }
 };
 
-export {postSignIn, getWalletInfoService, depositService, registerService};
+const verifyOTPService = async (userId: string, code: string) => {
+  try {
+    const response = await axios.post(`${apiURl}/users/verifyOTP/${userId}`, {
+      code: code,
+    });
+    if (response) return response;
+  } catch (error) {
+    console.log('Verify OTP Error', JSON.stringify(error));
+  }
+};
+
+export {postSignIn, getWalletInfoService, registerService, verifyOTPService};

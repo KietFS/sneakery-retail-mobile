@@ -13,6 +13,11 @@ export const postRegisterAccount = createAction<{
   phoneNumber?: string;
 }>(authReducerKey + '/postRegisterAccount');
 
+export const postVerifyOTP = createAction<{
+  userId: string;
+  code: string;
+}>(authReducerKey + '/postVerifyOTP');
+
 export const logOutAccount = createAction(authReducerKey + '/logOutAccount');
 
 export const deposit = createAction<{

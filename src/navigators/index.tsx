@@ -19,6 +19,7 @@ import Policy from '../screens/main/Account/Policy';
 import Security from '../screens/main/Account/Security';
 import FilterCategory from '../screens/main/Search/FilterCategory';
 import RegisterScreen from '../screens/auth/Register';
+import VerifyOTPScreen from '../screens/auth/VerifyOTP';
 const Stack = createStackNavigator();
 
 interface IApplicationNavigatorProps {}
@@ -65,6 +66,14 @@ const ApplicationNavigator: React.FC<IApplicationNavigatorProps> = props => {
         <Stack.Screen
           name="Register"
           component={RegisterScreen}
+          options={{
+            animationEnabled: true,
+            ...TransitionPresets.SlideFromRightIOS,
+          }}
+        />
+        <Stack.Screen
+          name="VerifyOTP"
+          component={VerifyOTPScreen}
           options={{
             animationEnabled: true,
             ...TransitionPresets.SlideFromRightIOS,
