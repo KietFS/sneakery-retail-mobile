@@ -1,24 +1,15 @@
 import {put, takeLatest, all, call, takeEvery} from 'redux-saga/effects';
 import {PayloadAction} from '@reduxjs/toolkit';
 import {
-  deposit,
   logOutAccount,
   postRegisterAccount,
   postSignInAccount,
   postVerifyOTP,
-  refreshWallet,
 } from './actions';
 import {authReducerActions} from './slice';
-import axios from 'axios';
-import {
-  getWalletInfoService,
-  postSignIn,
-  registerService,
-  verifyOTPService,
-} from './services';
+import {postSignIn, registerService, verifyOTPService} from './services';
 import {navigateAndSimpleReset, navigationRef} from '../../utils/navigate';
 import {Alert} from 'react-native';
-import {Linking} from 'react-native';
 
 function* signIn(action: PayloadAction<any>): any {
   yield put(authReducerActions.setIsSignInLoading(true));
@@ -51,9 +42,11 @@ function* register(action: PayloadAction<any>): any {
     action.payload.username,
     action.payload?.phoneNumber,
   );
+
   if (!!response?.data?.success) {
     console.log(response?.data);
     navigationRef.navigate(
+      //@ts-ignore
       'VerifyOTP' as never,
       {userId: response?.data?.message?.verifyID} as never,
     );
@@ -86,20 +79,6 @@ function* verifyOTP(action: PayloadAction<any>): any {
   }
 }
 
-function* refreshWalletSaga(action: PayloadAction<any>): any {
-  const walletResponse = yield call(
-    getWalletInfoService,
-    action.payload.userId,
-  );
-  if (walletResponse?.data) {
-    yield put(
-      authReducerActions.setAccountBalance(walletResponse?.data?.data?.balance),
-    );
-  } else {
-    Alert.alert('Không thể làm mới thông tin ví, xin hãy thử lại sau');
-  }
-}
-
 function* watchPostLogoutAccount() {
   // TODO handle postLogoutApi
   yield put(authReducerActions.setAccessToken(null));
@@ -109,9 +88,8 @@ function* watchPostLogoutAccount() {
 export default function* authSaga(): any {
   yield all([
     yield takeEvery(postSignInAccount, signIn),
+    yield takeLatest(postRegisterAccount, register),
     yield takeLatest(postVerifyOTP, verifyOTP),
     yield takeLatest(logOutAccount, watchPostLogoutAccount),
-    yield takeLatest(refreshWallet, refreshWalletSaga),
-    yield takeLatest(postRegisterAccount, register),
   ]);
 }

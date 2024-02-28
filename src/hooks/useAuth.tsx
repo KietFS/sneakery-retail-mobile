@@ -1,11 +1,6 @@
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../store';
-import {
-  deposit,
-  logOutAccount,
-  postRegisterAccount,
-  refreshWallet,
-} from '../store/auth/actions';
+import {logOutAccount, postRegisterAccount} from '../store/auth/actions';
 
 const useAuth = () => {
   const {
@@ -18,14 +13,6 @@ const useAuth = () => {
   const dispatch = useDispatch();
 
   const dispatchLogoutAccount = () => dispatch(logOutAccount());
-
-  const dispatchDeposit = (chargeAmount: number) => {
-    dispatch(deposit({userId: userInfo?.id, chargeAmount, token: accessToken}));
-  };
-
-  const dispatchRefreshWallet = () => {
-    dispatch(refreshWallet({userId: userInfo.id}));
-  };
 
   const dispatchRegisterAccount = (
     email: string,
@@ -45,9 +32,7 @@ const useAuth = () => {
     dispatchLogoutAccount,
     userInfo,
     accountBalance,
-    dispatchDeposit,
     isDepositting,
-    dispatchRefreshWallet,
     dispatchRegisterAccount,
   };
 };

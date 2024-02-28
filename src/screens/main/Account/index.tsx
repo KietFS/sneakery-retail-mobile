@@ -111,11 +111,6 @@ const Account: React.FC<IAccountScreenProps> = props => {
             iconSource={require('../../../assets/icons/MapPin.png')}
           />
           <AccountCard
-            title={t('account.your_wallet')}
-            onPress={() => navigation.navigate('EditWallet' as never)}
-            iconSource={require('../../../assets/icons/Wallet.png')}
-          />
-          <AccountCard
             title={t('account.language_settings')}
             onPress={() => setOpenLanguageSetting(true)}
             iconSource={require('../../../assets/icons/World.png')}

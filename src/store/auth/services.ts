@@ -13,17 +13,6 @@ const postSignIn = async (email: string, password: string) => {
   }
 };
 
-const getWalletInfoService = async (id: string) => {
-  try {
-    const response = await axios.get(
-      `https://sneakery.herokuapp.com/api/wallet/get/${id}`,
-    );
-    if (response) return response;
-  } catch (error: any) {
-    return error;
-  }
-};
-
 const registerService = async (
   email: string,
   password: string,
@@ -64,4 +53,4 @@ const verifyOTPService = async (userId: string, code: string) => {
   }
 };
 
-export {postSignIn, getWalletInfoService, registerService, verifyOTPService};
+export {postSignIn, registerService, verifyOTPService};

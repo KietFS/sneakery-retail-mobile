@@ -7,7 +7,6 @@ export interface AuthState {
   isSignInLoading: boolean;
   isVerifyOTPLoading: boolean;
   isRegisterLoading: boolean;
-  isDepositting: boolean;
   error: string | null;
 
   userInfo: IUser | null;
@@ -20,7 +19,6 @@ export const initialState: AuthState = {
   isSignInLoading: false,
   isRegisterLoading: false,
   isVerifyOTPLoading: false,
-  isDepositting: false,
   error: null,
   userInfo: null,
 
@@ -49,12 +47,6 @@ export const authSlice = createSlice({
     },
     setUserInfo: (state, action) => {
       state.userInfo = action.payload;
-    },
-    setAccountBalance: (state, action) => {
-      state.accountBalance = action.payload;
-    },
-    setIsDepositting: (state, action) => {
-      state.isDepositting = action.payload;
     },
     reset() {
       return initialState;

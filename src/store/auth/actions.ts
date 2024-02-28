@@ -19,17 +19,3 @@ export const postVerifyOTP = createAction<{
 }>(authReducerKey + '/postVerifyOTP');
 
 export const logOutAccount = createAction(authReducerKey + '/logOutAccount');
-
-export const deposit = createAction<{
-  userId: number;
-  chargeAmount: number;
-  token: string;
-}>(authReducerKey + '/deposit');
-
-export const refreshWallet = createAction<{userId: number}>(
-  authReducerKey + '/refreshWallet',
-);
-
-export const getAddressInfo = createAction<{accessToken: string}>(
-  authReducerKey + '/getAddressInfo',
-);
