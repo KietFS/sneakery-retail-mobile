@@ -23,7 +23,7 @@ const ProductGrid: React.FC<IProductGridProps> = props => {
           flexWrap: 'wrap',
           justifyContent: 'space-between',
         }}>
-        {products.map((product, index) => {
+        {/* {products?.((product, index) => {
           if (index <= 3) {
             return (
               <ProductCard
@@ -37,7 +37,7 @@ const ProductGrid: React.FC<IProductGridProps> = props => {
               />
             );
           }
-        })}
+        })} */}
       </View>
       <View
         style={{

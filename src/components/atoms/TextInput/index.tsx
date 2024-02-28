@@ -62,6 +62,7 @@ const TextInput: React.FC<ITextInputProps> = props => {
 
           <RNTextInput
             value={value}
+            autoCapitalize="none"
             {...props}
             onChangeText={text => onChange(text)}
             onFocus={() => setIsFocus(true)}

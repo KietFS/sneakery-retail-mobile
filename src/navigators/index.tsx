@@ -13,7 +13,6 @@ import {navigationRef} from '../utils/navigate';
 import {TransitionPresets, createStackNavigator} from '@react-navigation/stack';
 import EditProfile from '../screens/main/Account/EditProfile';
 import EditAddress from '../screens/main/Account/EditAddress';
-import EditWallet from '../screens/main/Account/EditWallet';
 import Notification from '../screens/main/Account/Notification';
 import Policy from '../screens/main/Account/Policy';
 import Security from '../screens/main/Account/Security';
@@ -28,9 +27,6 @@ const ApplicationNavigator: React.FC<IApplicationNavigatorProps> = props => {
   const {isAuthenticated} = useAuth();
 
   const initialRoute = isAuthenticated ? 'MAIN' : 'Welcome';
-
-  console.log('initial route name', initialRoute);
-
   return (
     <NavigationContainer ref={navigationRef}>
       <Stack.Navigator
@@ -100,14 +96,6 @@ const ApplicationNavigator: React.FC<IApplicationNavigatorProps> = props => {
         <Stack.Screen
           name="EditAddress"
           component={EditAddress}
-          options={{
-            animationEnabled: true,
-            ...TransitionPresets.ModalPresentationIOS,
-          }}
-        />
-        <Stack.Screen
-          name="EditWallet"
-          component={EditWallet}
           options={{
             animationEnabled: true,
             ...TransitionPresets.ModalPresentationIOS,
