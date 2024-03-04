@@ -4,9 +4,11 @@ import {IProduct} from '../@types';
 export interface ProductState {
   //sign in state
   products: IProduct[];
+  filteredProducts: IProduct[];
   productDetail: IProduct | null;
 
   isGettingHomePage: boolean;
+  isGettingFilteredProduct: boolean;
   isGettingProductDetail: boolean;
 
   keyword: string | null;
@@ -19,9 +21,11 @@ export interface ProductState {
 export const initialState: ProductState = {
   //sign in state
   products: [],
+  filteredProducts: [],
   productDetail: null,
 
   isGettingHomePage: false,
+  isGettingFilteredProduct: false,
   isGettingProductDetail: false,
 
   keyword: null,
@@ -37,6 +41,12 @@ export const productSlice = createSlice({
   reducers: {
     setProducts: (state, action) => {
       state.products = action.payload;
+    },
+    setFilteredProducts: (state, action) => {
+      state.filteredProducts = action.payload;
+    },
+    setIsGettingFilteredProducts: (state, action) => {
+      state.isGettingFilteredProduct = action.payload;
     },
     setIsGettingHomePage: (state, action) => {
       state.isGettingHomePage = action.payload;

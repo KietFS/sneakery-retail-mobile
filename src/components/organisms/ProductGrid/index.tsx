@@ -27,11 +27,13 @@ const ProductGrid: React.FC<IProductGridProps> = props => {
           if (index <= 3) {
             return (
               <ProductCard
+                key={`${product._id}`}
                 {...product}
                 onCardPress={() =>
                   navigation.navigate(
+                    //@ts-ignore
                     'ProductDetail' as never,
-                    {id: product?.id} as never,
+                    {id: product?._id} as never,
                   )
                 }
               />

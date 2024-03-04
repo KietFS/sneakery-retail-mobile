@@ -17,7 +17,7 @@ const Search: React.FC<ISearchScreenProps> = props => {
   const {Colors} = useTheme();
   const navigation = useNavigation();
   const {
-    filterProducts,
+    filteredProducts,
     priceStart,
     priceEnd,
     condition,
@@ -34,32 +34,8 @@ const Search: React.FC<ISearchScreenProps> = props => {
   const {dispatchFilterProduct} = useProduct();
 
   useEffect(() => {
-    if (!!filterProducts) {
-      let temp: string[] = [];
-      !!searchText ? temp.push(searchText?.toString()) : {};
-      !!priceStart ? temp.push(priceStart?.toString()) : {};
-      !!priceEnd ? temp.push(priceEnd?.toString()) : {};
-      !!condition ? temp.push(condition as string) : {};
-      !!category ? temp.push(category as string) : {};
-      brand?.length > 0 ? temp.push(brand?.[0]?.toString() as string) : {};
-      color?.length > 0 ? temp.push(color?.[0]?.toString() as string) : {};
-      size?.length > 0 ? temp.push(size?.[0]?.toString() as string) : {};
-      setSearchOptions([...temp]);
-    }
-  }, [filterProducts]);
-
-  useEffect(() => {
     if (!!debonunceValue) {
-      dispatchFilterProduct(
-        searchText,
-        priceStart,
-        priceEnd,
-        condition,
-        category,
-        brand,
-        color,
-        size,
-      );
+      dispatchFilterProduct(searchText, category, brand, size);
     }
   }, [debonunceValue]);
 
@@ -84,7 +60,7 @@ const Search: React.FC<ISearchScreenProps> = props => {
       </View>
       {isFilteringProduct ? (
         <SearchLoadingView />
-      ) : filterProducts?.length > 0 ? (
+      ) : filteredProducts?.length > 0 ? (
         <View
           style={{
             height: '100%',
@@ -93,8 +69,8 @@ const Search: React.FC<ISearchScreenProps> = props => {
           }}>
           <Text
             style={{marginTop: 16, fontSize: 16, color: Colors.secondary[600]}}>
-            Chúng tôi tìm thấy {filterProducts?.length} kết quả cho yêu cầu tìm
-            kiếm của bạn
+            Chúng tôi tìm thấy {filteredProducts?.length} kết quả cho yêu cầu
+            tìm kiếm của bạn
           </Text>
           <View
             style={{
@@ -129,7 +105,7 @@ const Search: React.FC<ISearchScreenProps> = props => {
               backgroundColor: 'white',
               marginTop: 16,
             }}
-            data={filterProducts}
+            data={filteredProducts}
             showsVerticalScrollIndicator={false}
             keyExtractor={(item, index) => index.toString()}
             contentContainerStyle={{paddingBottom: 240}}

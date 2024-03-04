@@ -9,22 +9,17 @@ import {NumberFormWithBottomSheet} from '../../../components/molecules';
 import ProductSlider from '../../../components/molecules/ProductSlider';
 import DetailLoadingScreen from '../DetailLoadingScreen';
 import useProduct from '../../../hooks/useProduct';
-import {IProduct, IProductBidHistoryItem} from '../../../types';
+import {IProduct} from '@/store/@types';
 import {useAuth} from '../../../hooks/useAuth';
+import {Button} from '../../../components/atoms';
 
 interface IDetailScreenProps {}
 
 const PoductDetailScreen: React.FC<IDetailScreenProps> = props => {
   const route: any = useRoute();
   const {Colors} = useTheme();
-  const {
-    dispatchGetProductDetail,
-    isGettingProductDetail,
-    productDetail,
-    productBidHistory,
-    dispatchBidProduct,
-    isBiddingProduct,
-  } = useProduct();
+  const {dispatchGetProductDetail, isGettingProductDetail, productDetail} =
+    useProduct();
 
   useEffect(() => {
     dispatchGetProductDetail(route.params?.id);
@@ -48,13 +43,19 @@ const PoductDetailScreen: React.FC<IDetailScreenProps> = props => {
                 paddingBottom: 100,
                 alignItems: 'center',
               }}>
+              {/* <Image
+                style={{height: 230, width: 360}}
+                source={{
+                  uri: productDetail?.thumbnail,
+                }}
+              /> */}
               <ScrollView
                 pagingEnabled
                 showsHorizontalScrollIndicator={false}
                 style={{width: '100%'}}
                 contentContainerStyle={{alignItems: 'center'}}
                 horizontal>
-                {detail?.imagePath?.map((image, index) => (
+                {detail?.images?.map((image, index) => (
                   <Image
                     style={{height: 230, width: 360}}
                     source={{
@@ -99,7 +100,7 @@ const PoductDetailScreen: React.FC<IDetailScreenProps> = props => {
                       fontWeight: 'normal',
                       marginRight: 8,
                     }}>
-                    Giá khởi điểm:
+                    Giá bán
                   </Text>
                   <Text
                     style={{
@@ -107,68 +108,12 @@ const PoductDetailScreen: React.FC<IDetailScreenProps> = props => {
                       color: Colors.secondary[500],
                       fontWeight: 'normal',
                     }}>
-                    {detail?.startPrice?.toString().prettyMoney() || ''}$
-                  </Text>
-                </View>
-                <View style={{flexDirection: 'row', marginTop: 8}}>
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      color: Colors.secondary[400],
-                      fontWeight: 'normal',
-                      marginRight: 8,
-                    }}>
-                    Bước giá
-                  </Text>
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      color: Colors.primary[500],
-                      fontWeight: 'normal',
-                    }}>
-                    {detail?.bidIncrement?.toString()?.prettyMoney() || ''}$
-                  </Text>
-                </View>
-                <View style={{flexDirection: 'row', marginTop: 8}}>
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      color: Colors.secondary[400],
-                      fontWeight: 'normal',
-                      marginRight: 8,
-                    }}>
-                    Giá hiện tại
-                  </Text>
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      color: Colors.primary[500],
-                      fontWeight: 'normal',
-                    }}>
-                    {detail?.currentPrice?.toString()?.prettyMoney() || ''}$
-                  </Text>
-                </View>
-                <View style={{flexDirection: 'row', marginTop: 8}}>
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      color: Colors.secondary[400],
-                      fontWeight: 'normal',
-                      marginRight: 8,
-                    }}>
-                    Kết thúc sau
-                  </Text>
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      color: Colors.error[500],
-                      fontWeight: 'normal',
-                    }}>
-                    4 ngày : 18 giờ
+                    {/* @ts-ignore */}
+                    {detail?.price?.toString().prettyMoney() || ''}$
                   </Text>
                 </View>
               </View>
-              <View style={{marginTop: 24, width: '100%'}}>
+              {/* <View style={{marginTop: 24, width: '100%'}}>
                 <Text
                   style={{
                     fontSize: 18,
@@ -177,44 +122,7 @@ const PoductDetailScreen: React.FC<IDetailScreenProps> = props => {
                   }}>
                   Các lượt bid gần đây
                 </Text>
-                {(productBidHistory as any[])?.map((item, index) => {
-                  if (index <= 2)
-                    return (
-                      <View style={{flexDirection: 'row', marginTop: 8}}>
-                        <Text
-                          style={{
-                            fontSize: 16,
-                            color: Colors.secondary[400],
-                            fontWeight: 'normal',
-                            marginRight: 8,
-                          }}>
-                          Người dùng ${item.userName} -
-                        </Text>
-                        <Text
-                          style={{
-                            fontSize: 16,
-                            color: Colors.primary[500],
-                            fontWeight: 'bold',
-                            marginRight: 8,
-                          }}>
-                          {item.bidAmount?.toString().prettyMoney()}$
-                        </Text>
-                        <Text
-                          style={{
-                            fontSize: 16,
-                            color: Colors.secondary[400],
-                            fontWeight: 'normal',
-                            marginRight: 8,
-                          }}>
-                          {item.createdAt
-                            ?.toString()
-                            ?.prettyDate()
-                            ?.slice(0, 20)}
-                        </Text>
-                      </View>
-                    );
-                })}
-                {/* <TouchableOpacity
+                <TouchableOpacity
                   style={{
                     backgroundColor: Colors.primary[200],
                     width: 100,
@@ -227,8 +135,8 @@ const PoductDetailScreen: React.FC<IDetailScreenProps> = props => {
                     style={{fontWeight: 'bold', color: Colors.primary[500]}}>
                     Xem tất cả
                   </Text>
-                </TouchableOpacity> */}
-              </View>
+                </TouchableOpacity>
+              </View> */}
             </ScrollView>
           </SafeAreaView>
           <View
@@ -240,18 +148,7 @@ const PoductDetailScreen: React.FC<IDetailScreenProps> = props => {
               paddingHorizontal: 24,
               paddingVertical: 12,
             }}>
-            <NumberFormWithBottomSheet
-              title="Đấu giá ngay"
-              onBid={bid => {
-                dispatchBidProduct(
-                  route?.params?.id,
-                  accessToken as string,
-                  bid,
-                );
-              }}
-              loading={isBiddingProduct}
-              minValue={detail?.currentPrice + detail?.bidIncrement + 1}
-            />
+            <Button label="Thêmc vào giỏ hàng" />
           </View>
         </>
       )}

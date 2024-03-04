@@ -8,3 +8,10 @@ export const getProductHomePages = createAction(
 export const getProductDetail = createAction<{id: string}>(
   productReducerKey + '/getProductDetail',
 );
+
+export const getFilteredProducts = createAction<{
+  name?: string;
+  brand?: string;
+  size?: number;
+  category?: string;
+}>(productReducerKey + '/getFilteredProducts');

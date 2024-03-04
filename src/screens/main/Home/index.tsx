@@ -59,14 +59,20 @@ const Home: React.FC<IHomeScreenProps> = props => {
             subTitle="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Porro ad
           voluptas fugit corporis, dolorum voluptas fugit corporis, dolorum"
           />
-          <ProductGrid products={products} />
+          <ProductGrid
+            key="nike"
+            products={products?.filter(product => product.brand == 'nike')}
+          />
           <BrandCard
             title="Thương hiệu Adidas"
             subTitle="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Porro ad
           voluptas fugit corporis, dolorum voluptas fugit corporis, dolorum"
             logo={require('../../../assets/images/AdidasCaro1.jpeg')}
           />
-          {/* <ProductGrid products={adidasProducts} /> */}
+          <ProductGrid
+            key="adidas"
+            products={products?.filter(product => product.brand == 'adidas')}
+          />
           <BrandCard
             isReverse
             logo={require('../../../assets/images/LVCaro1.jpeg')}
