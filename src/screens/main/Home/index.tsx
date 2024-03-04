@@ -10,14 +10,8 @@ interface IHomeScreenProps {}
 
 const Home: React.FC<IHomeScreenProps> = props => {
   const {Colors} = useTheme();
-  const {
-    dispatchGetProductHomePage,
-    nikeProducts,
-    adidasProducts,
-    pumaProducts,
-    lvProducts,
-    isGettingHomePage,
-  } = useProduct();
+  const {dispatchGetProductHomePage, products, isGettingHomePage} =
+    useProduct();
 
   useEffect(() => {
     dispatchGetProductHomePage();
@@ -65,14 +59,14 @@ const Home: React.FC<IHomeScreenProps> = props => {
             subTitle="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Porro ad
           voluptas fugit corporis, dolorum voluptas fugit corporis, dolorum"
           />
-          <ProductGrid products={nikeProducts} />
+          <ProductGrid products={products} />
           <BrandCard
             title="Thương hiệu Adidas"
             subTitle="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Porro ad
           voluptas fugit corporis, dolorum voluptas fugit corporis, dolorum"
             logo={require('../../../assets/images/AdidasCaro1.jpeg')}
           />
-          <ProductGrid products={adidasProducts} />
+          {/* <ProductGrid products={adidasProducts} /> */}
           <BrandCard
             isReverse
             logo={require('../../../assets/images/LVCaro1.jpeg')}
@@ -80,14 +74,14 @@ const Home: React.FC<IHomeScreenProps> = props => {
             subTitle="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Porro ad
           voluptas fugit corporis, dolorum voluptas fugit corporis, dolorum"
           />
-          <ProductGrid products={lvProducts} />
+          {/* <ProductGrid products={lvProducts} /> */}
           <BrandCard
             title="Thương hiệu Puma"
             subTitle="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Porro ad
           voluptas fugit corporis, dolorum voluptas fugit corporis, dolorum"
             logo={require('../../../assets/images/PumaCaro1.webp')}
           />
-          <ProductGrid products={pumaProducts} />
+          {/* <ProductGrid products={pumaProducts} /> */}
         </ScrollView>
       )}
     </SafeAreaView>

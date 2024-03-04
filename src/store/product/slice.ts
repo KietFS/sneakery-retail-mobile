@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {IProduct, IProductBidHistoryItem, IProductCondition} from '../../types';
+import {IProduct} from '../@types';
 
 export interface ProductState {
   //sign in state
@@ -9,10 +9,7 @@ export interface ProductState {
   isGettingHomePage: boolean;
   isGettingProductDetail: boolean;
 
-  keyWord: string | null;
-  priceStart: string | null;
-  priceEnd: string | null;
-  condition: IProductCondition | null;
+  keyword: string | null;
   category: string | null;
   brand: string[];
   color: string[];
@@ -27,10 +24,7 @@ export const initialState: ProductState = {
   isGettingHomePage: false,
   isGettingProductDetail: false,
 
-  keyWord: null,
-  priceStart: null,
-  priceEnd: null,
-  condition: null,
+  keyword: null,
   category: null,
   brand: [],
   color: [],
@@ -41,6 +35,9 @@ export const productSlice = createSlice({
   name: 'productReducer',
   initialState: {...initialState},
   reducers: {
+    setProducts: (state, action) => {
+      state.products = action.payload;
+    },
     setIsGettingHomePage: (state, action) => {
       state.isGettingHomePage = action.payload;
     },
@@ -49,18 +46,6 @@ export const productSlice = createSlice({
     },
     setProductDetail: (state, action) => {
       state.productDetail = action.payload;
-    },
-    setKeyWord: (state, action) => {
-      state.keyWord = action.payload;
-    },
-    setPriceStart: (state, action) => {
-      state.priceStart = action.payload;
-    },
-    setPriceEnd: (state, action) => {
-      state.priceEnd = action.payload;
-    },
-    setCondition: (state, action) => {
-      state.condition = action.payload;
     },
     setCategory: (state, action) => {
       state.category = action.payload;

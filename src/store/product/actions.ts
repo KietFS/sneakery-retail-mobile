@@ -1,6 +1,5 @@
 import {createAction} from '@reduxjs/toolkit';
 import {productReducerKey} from './slice';
-import {IProductCondition} from '../../types';
 
 export const getProductHomePages = createAction(
   productReducerKey + '/getProductHomePages',

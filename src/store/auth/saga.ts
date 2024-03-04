@@ -22,9 +22,12 @@ function* signIn(action: PayloadAction<any>): any {
 
   if (response?.data?.success) {
     yield put(authReducerActions.setIsSignInLoading(false));
-    yield put(authReducerActions.setAccessToken('token place holder'));
-    yield put(authReducerActions.setUserInfo(response?.data?.message?.info));
-    console.log('response?.data?.message?.info', response?.data?.message?.info);
+    yield put(
+      authReducerActions.setAccessToken(response?.data?.message?.info?.token),
+    );
+    yield put(
+      authReducerActions.setUserInfo(response?.data?.message?.info?.user),
+    );
     navigateAndSimpleReset('MAIN' as never);
   } else {
     yield put(authReducerActions.setIsSignInLoading(false));

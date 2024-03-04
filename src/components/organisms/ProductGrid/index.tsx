@@ -5,7 +5,7 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Text} from 'react-native';
 import useTheme from '../../../hooks/useTheme';
 import {useNavigation} from '@react-navigation/native';
-import {IProduct} from '../../../types';
+import {IProduct} from '../../../store/@types';
 
 interface IProductGridProps {
   products: IProduct[];
@@ -23,7 +23,7 @@ const ProductGrid: React.FC<IProductGridProps> = props => {
           flexWrap: 'wrap',
           justifyContent: 'space-between',
         }}>
-        {/* {products?.((product, index) => {
+        {products?.map((product, index) => {
           if (index <= 3) {
             return (
               <ProductCard
@@ -37,7 +37,7 @@ const ProductGrid: React.FC<IProductGridProps> = props => {
               />
             );
           }
-        })} */}
+        })}
       </View>
       <View
         style={{

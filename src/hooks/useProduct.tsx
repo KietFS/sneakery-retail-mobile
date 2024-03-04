@@ -1,26 +1,15 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../store';
-import {
-  bidProduct,
-  filterProducts,
-  getProductDetail,
-  getProductHomePages,
-} from '../store/product/actions';
-import {IProductCondition} from '../types';
+import {getProductDetail, getProductHomePages} from '../store/product/actions';
 
 const useProduct = () => {
   const dispatch = useDispatch();
   const {
-    nikeProducts,
-    adidasProducts,
-    pumaProducts,
-    lvProducts,
+    products,
     isGettingHomePage,
     isGettingProductDetail,
     productDetail,
-    productBidHistory,
-    isBiddingProduct,
 
     keyWord,
     priceStart,
@@ -40,53 +29,13 @@ const useProduct = () => {
     dispatch(getProductDetail({id: id}));
   };
 
-  const dispatchBidProduct = (
-    id: string,
-    accessToken: string,
-    bidValue: number,
-  ) => {
-    dispatch(bidProduct({id, accessToken, bidValue}));
-  };
-
-  const dispatchFilterProduct = (
-    keyWord: string | null,
-    priceStart: string | null,
-    priceEnd: string | null,
-    condition: IProductCondition | null,
-    category: string | null,
-    brand: string[],
-    color: string[],
-    size: string[],
-  ) => {
-    dispatch(
-      filterProducts({
-        keyWord,
-        priceStart,
-        priceEnd,
-        condition,
-        category,
-        color,
-        brand,
-        size,
-      }),
-    );
-  };
-
   return {
     dispatchGetProductHomePage,
-    nikeProducts,
-    adidasProducts,
-    pumaProducts,
-    lvProducts,
+    products,
     isGettingHomePage,
     dispatchGetProductDetail,
     isGettingProductDetail,
     productDetail,
-    productBidHistory,
-    dispatchBidProduct,
-    isBiddingProduct,
-    filterProducts,
-    dispatchFilterProduct,
 
     keyWord,
     priceStart,

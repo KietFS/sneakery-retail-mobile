@@ -1,5 +1,4 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {IUser} from '../../types';
 
 export interface AuthState {
   //sign in state
@@ -9,7 +8,7 @@ export interface AuthState {
   isRegisterLoading: boolean;
   error: string | null;
 
-  userInfo: IUser | null;
+  userInfo: any | null;
   accountBalance: number;
 }
 
