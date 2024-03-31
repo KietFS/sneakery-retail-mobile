@@ -25,6 +25,8 @@ const useAuth = () => {
 
   const isAuthenticated = !!accessToken;
 
+  console.log('ACCESS TOKEN IS', accessToken);
+
   return {
     isAuthenticated,
     isRegisterLoading,

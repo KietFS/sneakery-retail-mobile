@@ -28,7 +28,6 @@ const ApplicationNavigator: React.FC<IApplicationNavigatorProps> = props => {
 
   const initialRoute = isAuthenticated ? 'MAIN' : 'Welcome';
 
-  
   return (
     <NavigationContainer ref={navigationRef}>
       <Stack.Navigator

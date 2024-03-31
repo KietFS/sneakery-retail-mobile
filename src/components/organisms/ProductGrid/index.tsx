@@ -9,9 +9,12 @@ import {IProduct} from '../../../store/@types';
 
 interface IProductGridProps {
   products: IProduct[];
+  isShowButton?: boolean;
+  onClickShowAllButton?: (params: any) => void;
 }
 
 const ProductGrid: React.FC<IProductGridProps> = props => {
+  const {isShowButton = true, onClickShowAllButton} = props;
   const {Colors} = useTheme();
   const {products} = props;
   const navigation = useNavigation();
@@ -41,34 +44,38 @@ const ProductGrid: React.FC<IProductGridProps> = props => {
           }
         })}
       </View>
-      <View
-        style={{
-          width: '100%',
-          flexDirection: 'row',
-          justifyContent: 'center',
-        }}>
-        <TouchableOpacity
+
+      {isShowButton ? (
+        <View
           style={{
-            marginHorizontal: 'auto',
-            width: 100,
-            marginVertical: 12,
-            borderRadius: 8,
-            borderWidth: 1,
-            borderColor: Colors.primary[500],
-            paddingVertical: 12,
+            width: '100%',
+            flexDirection: 'row',
             justifyContent: 'center',
-            backgroundColor: 'white',
           }}>
-          <Text
+          <TouchableOpacity
+            onPress={() => onClickShowAllButton?.({})}
             style={{
-              textAlign: 'center',
-              color: Colors.primary[500],
-              fontWeight: '600',
+              marginHorizontal: 'auto',
+              width: 100,
+              marginVertical: 12,
+              borderRadius: 8,
+              borderWidth: 1,
+              borderColor: Colors.primary[500],
+              paddingVertical: 12,
+              justifyContent: 'center',
+              backgroundColor: 'white',
             }}>
-            Xem tất cả
-          </Text>
-        </TouchableOpacity>
-      </View>
+            <Text
+              style={{
+                textAlign: 'center',
+                color: Colors.primary[500],
+                fontWeight: '600',
+              }}>
+              Xem tất cả
+            </Text>
+          </TouchableOpacity>
+        </View>
+      ) : null}
     </View>
   );
 };

@@ -13,6 +13,7 @@ const useProduct = () => {
   const {
     products: storedProducts,
     filterProducts: storedFilterProducts,
+    totalRecords,
     isGettingHomePage,
     isGettingProductDetail,
     productDetail,
@@ -27,8 +28,8 @@ const useProduct = () => {
     size,
   } = useSelector((state: RootState) => state?.productReducer);
 
-  const dispatchGetProductHomePage = () => {
-    dispatch(getProductHomePages());
+  const dispatchGetProductHomePage = (page: number, limit: number) => {
+    dispatch(getProductHomePages({page: page, limit: limit}));
   };
 
   const dispatchGetProductDetail = (id: string) => {
@@ -57,6 +58,7 @@ const useProduct = () => {
   return {
     dispatchGetProductHomePage,
     products,
+    totalRecords,
     filteredProducts,
     isGettingHomePage,
     dispatchGetProductDetail,

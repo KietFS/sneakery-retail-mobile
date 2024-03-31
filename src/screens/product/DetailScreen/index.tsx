@@ -26,7 +26,6 @@ const PoductDetailScreen: React.FC<IDetailScreenProps> = props => {
   }, []);
 
   const detail: IProduct = productDetail as IProduct;
-  const {accessToken} = useAuth();
 
   return (
     <>
@@ -43,27 +42,48 @@ const PoductDetailScreen: React.FC<IDetailScreenProps> = props => {
                 paddingBottom: 100,
                 alignItems: 'center',
               }}>
-              {/* <Image
+              <Image
                 style={{height: 230, width: 360}}
                 source={{
                   uri: productDetail?.thumbnail,
                 }}
-              /> */}
+              />
               <ScrollView
-                pagingEnabled
+                bounces={true}
                 showsHorizontalScrollIndicator={false}
-                style={{width: '100%'}}
+                style={{marginTop: 20, width: '100%'}}
                 contentContainerStyle={{alignItems: 'center'}}
                 horizontal>
                 {detail?.images?.map((image, index) => (
-                  <Image
-                    style={{height: 230, width: 360}}
-                    source={{
-                      uri: image,
-                    }}
-                  />
+                  <TouchableOpacity
+                    key={index}
+                    style={{
+                      width: 200,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      borderColor: Colors.secondary[300],
+                      borderWidth: 1,
+
+                      borderRadius: 20,
+                      marginRight: 10,
+                      overflow: 'hidden', // Tắt overflow để tránh mờ border và border radius
+                    }}>
+                    <Image
+                      resizeMethod="scale"
+                      style={{
+                        minHeight: 100,
+                        maxHeight: 200,
+                        height: 130,
+                        width: '100%',
+                      }}
+                      source={{
+                        uri: image,
+                      }}
+                    />
+                  </TouchableOpacity>
                 ))}
               </ScrollView>
+
               <View style={{marginTop: 24, width: '100%'}}>
                 <Text
                   style={{
@@ -73,11 +93,23 @@ const PoductDetailScreen: React.FC<IDetailScreenProps> = props => {
                   }}>
                   {detail?.name}
                 </Text>
+                <View style={{marginTop: 4}}>
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      color: Colors.secondary[500],
+                      fontWeight: 'normal',
+                      fontStyle: 'italic',
+                    }}>
+                    {detail?.description}
+                  </Text>
+                </View>
+
                 <View style={{flexDirection: 'row', marginTop: 8}}>
                   <Text
                     style={{
                       fontSize: 16,
-                      color: Colors.secondary[400],
+                      color: Colors.secondary[600],
                       fontWeight: 'normal',
                       marginRight: 8,
                     }}>
@@ -96,7 +128,7 @@ const PoductDetailScreen: React.FC<IDetailScreenProps> = props => {
                   <Text
                     style={{
                       fontSize: 16,
-                      color: Colors.secondary[400],
+                      color: Colors.secondary[600],
                       fontWeight: 'normal',
                       marginRight: 8,
                     }}>
@@ -113,30 +145,6 @@ const PoductDetailScreen: React.FC<IDetailScreenProps> = props => {
                   </Text>
                 </View>
               </View>
-              {/* <View style={{marginTop: 24, width: '100%'}}>
-                <Text
-                  style={{
-                    fontSize: 18,
-                    color: Colors.secondary[500],
-                    fontWeight: 'bold',
-                  }}>
-                  Các lượt bid gần đây
-                </Text>
-                <TouchableOpacity
-                  style={{
-                    backgroundColor: Colors.primary[200],
-                    width: 100,
-                    alignItems: 'center',
-                    paddingVertical: 8,
-                    marginTop: 16,
-                    borderRadius: 16,
-                  }}>
-                  <Text
-                    style={{fontWeight: 'bold', color: Colors.primary[500]}}>
-                    Xem tất cả
-                  </Text>
-                </TouchableOpacity>
-              </View> */}
             </ScrollView>
           </SafeAreaView>
           <View

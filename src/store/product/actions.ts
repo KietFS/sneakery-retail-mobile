@@ -1,7 +1,7 @@
 import {createAction} from '@reduxjs/toolkit';
 import {productReducerKey} from './slice';
 
-export const getProductHomePages = createAction(
+export const getProductHomePages = createAction<{page: number; limit: number}>(
   productReducerKey + '/getProductHomePages',
 );
 

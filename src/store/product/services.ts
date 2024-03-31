@@ -2,9 +2,11 @@ import axios from 'axios';
 import {apiURl} from '../../constants';
 import querystring from 'querystring';
 
-const getProducts = async () => {
+const getProducts = async (page: number, limit: number) => {
   try {
-    const response = await axios.get(`${apiURl}/products/`);
+    const response = await axios.get(
+      `${apiURl}/products/?page=${page}&limit=${limit}`,
+    );
     if (response) return response;
   } catch (error: any) {
     return error;

@@ -1,13 +1,26 @@
-import {put, takeLatest, all, call, takeEvery} from 'redux-saga/effects';
+import {
+  put,
+  takeLatest,
+  all,
+  call,
+  takeEvery,
+  select,
+} from 'redux-saga/effects';
 import {PayloadAction} from '@reduxjs/toolkit';
 import {
   logOutAccount,
   postRegisterAccount,
   postSignInAccount,
   postVerifyOTP,
+  updateUserProfile,
 } from './actions';
 import {authReducerActions} from './slice';
-import {postSignIn, registerService, verifyOTPService} from './services';
+import {
+  postSignIn,
+  registerService,
+  updateUserProfileService,
+  verifyOTPService,
+} from './services';
 import {navigateAndSimpleReset, navigationRef} from '../../utils/navigate';
 import {Alert} from 'react-native';
 
@@ -23,7 +36,9 @@ function* signIn(action: PayloadAction<any>): any {
   if (response?.data?.success) {
     yield put(authReducerActions.setIsSignInLoading(false));
     yield put(
-      authReducerActions.setAccessToken(response?.data?.message?.info?.token),
+      authReducerActions.setAccessToken(
+        response?.data?.message?.info?.accessToken,
+      ),
     );
     yield put(
       authReducerActions.setUserInfo(response?.data?.message?.info?.user),
@@ -65,6 +80,33 @@ function* register(action: PayloadAction<any>): any {
   }
 }
 
+function* updateUserProfileSaga(action: PayloadAction<any>): any {
+  yield put(authReducerActions.setIsRegisterLoading(true));
+
+  const {accessToken} = yield select(state => state.authReducer);
+  const response = yield call(
+    updateUserProfileService,
+    action.payload.username,
+    action.payload.phoneNumber,
+    accessToken,
+  );
+
+  if (!!response?.data?.success) {
+    Alert.alert(
+      'Đổi thông tin người dùng thành công' || response.data?.message?.text,
+    );
+    yield put(authReducerActions.setIsRegisterLoading(false));
+    yield put(
+      authReducerActions.setUserInfo(response?.data?.message?.userInfo),
+    );
+  } else {
+    Alert.alert(
+      response?.data?.message ||
+        'Đổi thông tin người dùng thất bại, vui lòng thử lại sau',
+    );
+  }
+}
+
 function* verifyOTP(action: PayloadAction<any>): any {
   yield put(authReducerActions.setIsRegisterLoading(true));
 
@@ -94,6 +136,7 @@ export default function* authSaga(): any {
   yield all([
     yield takeEvery(postSignInAccount, signIn),
     yield takeLatest(postRegisterAccount, register),
+    yield takeLatest(updateUserProfile, updateUserProfileSaga),
     yield takeLatest(postVerifyOTP, verifyOTP),
     yield takeLatest(logOutAccount, watchPostLogoutAccount),
   ]);

@@ -4,6 +4,7 @@ import {IProduct} from '../@types';
 export interface ProductState {
   //sign in state
   products: IProduct[];
+  totalRecords: number;
   filteredProducts: IProduct[];
   productDetail: IProduct | null;
 
@@ -21,6 +22,7 @@ export interface ProductState {
 export const initialState: ProductState = {
   //sign in state
   products: [],
+  totalRecords: 0,
   filteredProducts: [],
   productDetail: null,
 
@@ -41,6 +43,9 @@ export const productSlice = createSlice({
   reducers: {
     setProducts: (state, action) => {
       state.products = action.payload;
+    },
+    setTotalRecords: (state, action) => {
+      state.totalRecords = action.payload;
     },
     setFilteredProducts: (state, action) => {
       state.filteredProducts = action.payload;

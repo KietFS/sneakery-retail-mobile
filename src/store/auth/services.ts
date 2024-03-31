@@ -19,16 +19,6 @@ const registerService = async (
   username: string,
   phoneNumber?: string,
 ) => {
-  console.log(
-    'username',
-    username,
-    'password',
-    password,
-    'email',
-    email,
-    'phoneNumber',
-    phoneNumber,
-  );
   try {
     const response = await axios.post(`${apiURl}/users/register`, {
       username: username,
@@ -42,6 +32,29 @@ const registerService = async (
   }
 };
 
+const updateUserProfileService = async (
+  username: string,
+  phoneNumber: string,
+  accessToken: string,
+) => {
+  try {
+    const response = await axios.put(
+      `${apiURl}/users/`,
+      {
+        username: username,
+        phoneNumber: phoneNumber,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
+    if (response) return response;
+  } catch (error) {
+    console.log('EDIT PROFILE USER ERROR', error);
+  }
+};
 const verifyOTPService = async (userId: string, code: string) => {
   try {
     const response = await axios.post(`${apiURl}/users/verifyOTP/${userId}`, {
@@ -53,4 +66,9 @@ const verifyOTPService = async (userId: string, code: string) => {
   }
 };
 
-export {postSignIn, registerService, verifyOTPService};
+export {
+  postSignIn,
+  registerService,
+  verifyOTPService,
+  updateUserProfileService,
+};

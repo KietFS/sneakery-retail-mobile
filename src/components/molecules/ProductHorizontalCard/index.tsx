@@ -92,7 +92,7 @@ const ProductHorizontalCard: React.FC<IProductHorizontalCardProps> = props => {
               fontWeight: 'bold',
               marginLeft: 8,
             }}>
-            {props?.size}
+            {props?.size?.[0]}
           </Text>
         </View>
       </View>

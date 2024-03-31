@@ -29,16 +29,18 @@ const ProductCard: React.FC<IProductCardProps> = props => {
         paddingVertical: 16,
         paddingHorizontal: 20,
         backgroundColor: 'white',
-        width: '100%',
+        width: 185,
         height: 210,
         borderWidth: 1,
         borderRadius: 16,
         borderColor: Colors.secondary[200],
         marginBottom: 12,
         minWidth: '48%',
+        justifyContent: 'center',
+        alignItems: 'center',
       }}>
       <Image
-        style={{width: '100%', height: 100}}
+        style={{width: 160, height: 100}}
         source={{
           uri: `${thumbnail as any}`,
         }}

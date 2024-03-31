@@ -3,7 +3,14 @@ export interface IProduct {
   name: string;
   thumbnail: string;
   price: number;
+  description?: string;
   images?: string[];
   brand?: string;
-  size?: number;
+  size?: number[];
+}
+
+export interface IUser {
+  email: string;
+  username: string;
+  phoneNumber: string;
 }

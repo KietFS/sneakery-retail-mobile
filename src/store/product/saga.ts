@@ -16,10 +16,16 @@ import {Alert} from 'react-native';
 function* getAllProductForHomePage(action: PayloadAction<any>): any {
   yield put(productReducerActions.setIsGettingHomePage(true));
   try {
-    const response = yield call(getProducts);
+    const response = yield call(
+      getProducts,
+      action.payload.page,
+      action.payload.limit,
+    );
     if (response?.data?.success) {
       yield put(productReducerActions.setProducts(response?.data?.results));
-      console.log('GET PRODUCT HOME PAGE', response?.data?.results);
+      yield put(
+        productReducerActions.setTotalRecords(response?.data?.totalRecords),
+      );
       yield put(productReducerActions.setIsGettingHomePage(false));
     } else {
       yield put(productReducerActions.setIsGettingHomePage(false));
