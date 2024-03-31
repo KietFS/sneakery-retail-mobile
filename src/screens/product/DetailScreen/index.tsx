@@ -27,6 +27,10 @@ const PoductDetailScreen: React.FC<IDetailScreenProps> = props => {
 
   const detail: IProduct = productDetail as IProduct;
 
+  const handlePressAddToCart = () => {
+    
+  };
+
   return (
     <>
       {isGettingProductDetail ? (
@@ -156,7 +160,7 @@ const PoductDetailScreen: React.FC<IDetailScreenProps> = props => {
               paddingHorizontal: 24,
               paddingVertical: 12,
             }}>
-            <Button label="Thêmc vào giỏ hàng" />
+            <Button label="Thêm vào giỏ hàng" />
           </View>
         </>
       )}

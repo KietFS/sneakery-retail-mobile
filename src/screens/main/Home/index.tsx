@@ -6,6 +6,7 @@ import ProductGrid from '../../../components/organisms/ProductGrid';
 import Skeleton from '../../../components/atoms/Skeleton';
 import useProduct from '../../../hooks/useProduct';
 import {FlatList} from 'react-native-gesture-handler';
+import TopSellerHorizontal from '../../../components/organisms/TopSellerHorizontal';
 
 interface IHomeScreenProps {}
 
@@ -77,6 +78,8 @@ const Home: React.FC<IHomeScreenProps> = props => {
                 đưa ra mức giá hợp lý nhất để mang nó về nhà.
               </Text>
             </View>
+
+            <TopSellerHorizontal products={products} />
 
             <BrandCard
               isReverse
