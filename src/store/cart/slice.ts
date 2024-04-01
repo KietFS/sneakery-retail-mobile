@@ -1,7 +1,8 @@
 import {createSlice} from '@reduxjs/toolkit';
+import {ICartItemRespose} from '../@types';
 
 export interface CartState {
-  cartItems: any[];
+  cartItems: ICartItemRespose[];
   isGettingCartItems: boolean;
   isCheckingOutCart: boolean;
 }

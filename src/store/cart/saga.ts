@@ -7,11 +7,12 @@ import {
   select,
 } from 'redux-saga/effects';
 import {PayloadAction} from '@reduxjs/toolkit';
-import {addToCart, getCartItems} from './actions';
+import {addToCart, getCartItems, removeCartItem} from './actions';
 import {cartReducerActions} from './slice';
 import {
   addToCartService,
   getCartItems as getCartItemsService,
+  removeCartItemService,
 } from './services';
 import {Alert} from 'react-native';
 import {IAddToCartPayload} from '../@types';
@@ -37,6 +38,7 @@ function* addToCartSaga(action: PayloadAction<IAddToCartPayload>): any {
     Alert.alert(
       'Thêm sản phẩm vào giỏ hàng thành công' || response?.data?.message,
     );
+    yield put(getCartItems());
     yield put(cartReducerActions.setIsGettingCartItems(false));
   } else {
     Alert.alert(
@@ -46,9 +48,30 @@ function* addToCartSaga(action: PayloadAction<IAddToCartPayload>): any {
   }
 }
 
+function* removeCartItemSaga(action: PayloadAction<{id: string}>): any {
+  const {accessToken} = yield select(state => state.authReducer);
+  const response = yield call(
+    removeCartItemService,
+    accessToken,
+    action.payload.id,
+  );
+  if (response?.data?.success) {
+    Alert.alert(
+      'Xóa sản phẩm khỏi giỏ hàng thành công' || response?.data?.message,
+    );
+    yield put(getCartItems());
+    yield put(cartReducerActions.setIsGettingCartItems(false));
+  } else {
+    Alert.alert(
+      'Xóa sản phẩm khỏi giỏ hàng thất bại' || response?.data?.message,
+    );
+  }
+}
+
 export default function* cartSaga(): any {
   yield all([
     yield takeEvery(getCartItems, getCartItemsFromAPI),
     yield takeLatest(addToCart, addToCartSaga),
+    yield takeLatest(removeCartItem, removeCartItemSaga),
   ]);
 }

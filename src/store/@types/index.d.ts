@@ -20,3 +20,10 @@ export interface IAddToCartPayload {
   productId: number | string;
   size: number;
 }
+
+export interface ICartItemRespose extends IAddToCartPayload {
+  quantity: number;
+  productId: IProduct;
+  size: number;
+  totalPrice: number;
+}

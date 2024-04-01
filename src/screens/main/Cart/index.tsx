@@ -11,27 +11,73 @@ import {RootState} from '../../../store';
 import {useAuth} from '../../../hooks/useAuth';
 import axios from 'axios';
 import {cartReducerActions} from '../../../store/cart/slice';
+import CartItemCard from '../../../components/molecules/CartItemCard';
 
 interface ICartScreenProps {}
 
 const Cart: React.FC<ICartScreenProps> = props => {
-  const {cartItems, dispatchGetCartItems} = useCart();
+  const {cartItems, dispatchGetCartItems, dispatchRemoveCartItem} = useCart();
+  const [items, setItems] = useState<any[]>([]);
+  const {Colors} = useTheme();
 
   useEffect(() => {
     dispatchGetCartItems();
   }, []);
+
+  useEffect(() => {
+    setItems(cartItems);
+  }, [cartItems]);
+
+  const handleRemoveCartItem = async (id: number | string) => {
+    dispatchRemoveCartItem(id);
+  };
+
+  const calculateTotalPrice = () => {
+    let finalTotalPrice = 0;
+    cartItems?.forEach((cart, cartIndex) => {
+      finalTotalPrice = finalTotalPrice + cart?.totalPrice;
+    });
+
+    return finalTotalPrice;
+  };
 
   return (
     <SafeAreaView>
       {cartItems?.length == 0 ? (
         <Empty />
       ) : (
-        <View>
-          {cartItems?.map((cart, cartIndex) => (
-            <View>
-              <Text>{cart?._id}</Text>
-            </View>
-          ))}
+        <View
+          style={{
+            height: '100%',
+            justifyContent: 'space-between',
+            paddingHorizontal: 20,
+            paddingVertical: 20,
+          }}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            style={{maxHeight: '90%'}}>
+            <Text
+              style={{
+                fontSize: 24,
+                fontWeight: 'bold',
+                color: Colors.secondary[600],
+                marginBottom: 16,
+              }}>
+              Giỏ hàng của bạn
+            </Text>
+            {items?.map((cart, cartIndex) => (
+              <CartItemCard
+                {...cart}
+                onPressRemoveItem={handleRemoveCartItem}
+              />
+            ))}
+          </ScrollView>
+          {/* @ts-ignore */}
+          <Button
+            label={`Thanh toán - ${calculateTotalPrice()
+              ?.toString()
+              ?.prettyMoney()}$`}
+          />
         </View>
       )}
     </SafeAreaView>

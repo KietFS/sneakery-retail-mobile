@@ -36,4 +36,17 @@ const addToCartService = async (token: string, payload: IAddToCartPayload) => {
   }
 };
 
-export {getCartItems, addToCartService};
+const removeCartItemService = async (token: string, id: string | number) => {
+  try {
+    const response = await axios.delete(`${apiURl}/carts/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (response) return response;
+  } catch (error) {
+    console.log('ADD TO CART ERROR', JSON.stringify(error));
+  }
+};
+
+export {getCartItems, addToCartService, removeCartItemService};

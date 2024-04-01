@@ -7,3 +7,7 @@ export const getCartItems = createAction(cartReducerKey + '/getCartItems');
 export const addToCart = createAction<IAddToCartPayload>(
   cartReducerKey + '/checkOutCart',
 );
+
+export const removeCartItem = createAction<{id: string | number}>(
+  cartReducerKey + '/removeCartItem',
+);

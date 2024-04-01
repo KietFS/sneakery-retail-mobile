@@ -58,7 +58,7 @@ const ProductCard: React.FC<IProductCardProps> = props => {
         }}>
         {name}
       </Text>
-      <Text
+      {/* <Text
         numberOfLines={1}
         style={{
           fontSize: 12,
@@ -68,7 +68,7 @@ const ProductCard: React.FC<IProductCardProps> = props => {
           marginTop: 8,
         }}>
         Được bán bởi: {(props as any)?.username}
-      </Text>
+      </Text> */}
       <Text
         numberOfLines={1}
         style={{
