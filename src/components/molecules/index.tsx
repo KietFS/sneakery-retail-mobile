@@ -6,7 +6,7 @@ import ProductCard from './ProductCard'
 import ProductSlider from './ProductSlider'
 import WelcomSlider from './WelcomeSlider'
 import BrandCard from './BrandCard'
-import NumberFormWithBottomSheet from './NumberFormWithBottomSheet'
+import NumberFormWithBottomSheet from '../organisms/NumberFormWithBottomSheet'
 import AccountCard from './AccountCard'
 import ProductHorizontalCard from './ProductHorizontalCard'
 

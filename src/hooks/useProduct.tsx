@@ -6,7 +6,8 @@ import {
   getProductDetail,
   getProductHomePages,
 } from '../store/product/actions';
-import {IProduct} from '@/store/@types';
+import {IAddToCartPayload, IProduct} from '../store/@types';
+import {addToCart} from '../store/cart/actions';
 
 const useProduct = () => {
   const dispatch = useDispatch();
@@ -52,6 +53,10 @@ const useProduct = () => {
     );
   };
 
+  const dispatchAddProductToCart = (payload: IAddToCartPayload) => {
+    dispatch(addToCart(payload));
+  };
+
   const products = storedProducts as IProduct[];
   const filteredProducts = storedFilterProducts as IProduct[];
 
@@ -63,6 +68,7 @@ const useProduct = () => {
     isGettingHomePage,
     dispatchGetProductDetail,
     dispatchFilterProduct,
+    dispatchAddProductToCart,
     isGettingProductDetail,
     productDetail,
 

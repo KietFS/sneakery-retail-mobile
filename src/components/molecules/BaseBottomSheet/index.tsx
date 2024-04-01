@@ -14,11 +14,12 @@ import BottomSheet, {BottomSheetBackdrop} from '@gorhom/bottom-sheet';
 interface IBaseBottomSheetProps {
   children: ReactNode;
   isOpen: boolean;
+  onClose?: () => void;
   initialSnapPoints?: string[];
 }
 
 const BaseBottomSheet: React.FC<IBaseBottomSheetProps> = props => {
-  const {children, isOpen, initialSnapPoints} = props;
+  const {children, isOpen, initialSnapPoints, onClose} = props;
 
   //state
   const [visibleModal, setVisibleModal] = useState<boolean>(false);
@@ -37,6 +38,7 @@ const BaseBottomSheet: React.FC<IBaseBottomSheetProps> = props => {
   }, []);
 
   const onCloseSheet = useCallback(() => {
+    onClose?.();
     setVisibleModal(false);
   }, []);
 

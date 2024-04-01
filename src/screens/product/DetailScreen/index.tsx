@@ -1,35 +1,42 @@
 import {useRoute} from '@react-navigation/native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import useTheme from '../../../hooks/useTheme';
 import NavigationHeader from '../../../components/molecules/NavigationHeader';
-import {NumberFormWithBottomSheet} from '../../../components/molecules';
-import ProductSlider from '../../../components/molecules/ProductSlider';
 import DetailLoadingScreen from '../DetailLoadingScreen';
 import useProduct from '../../../hooks/useProduct';
 import {IProduct} from '@/store/@types';
 import {useAuth} from '../../../hooks/useAuth';
 import {Button} from '../../../components/atoms';
+import AddToCartBottomSheet from '../../../components/organisms/AddToCartBottomSheet';
 
 interface IDetailScreenProps {}
 
 const PoductDetailScreen: React.FC<IDetailScreenProps> = props => {
   const route: any = useRoute();
   const {Colors} = useTheme();
-  const {dispatchGetProductDetail, isGettingProductDetail, productDetail} =
-    useProduct();
+  const {
+    dispatchGetProductDetail,
+    isGettingProductDetail,
+    productDetail,
+    dispatchAddProductToCart,
+  } = useProduct();
+  const [openAddToCartSheet, setOpenAddToCartSheet] = useState<boolean>(false);
+  const [sizeSelected, setSizeSelected] = useState<number | null>(null);
 
   useEffect(() => {
     dispatchGetProductDetail(route.params?.id);
   }, []);
 
-  const detail: IProduct = productDetail as IProduct;
+  useEffect(() => {
+    if (productDetail) {
+      setSizeSelected(productDetail?.size[0]);
+    }
+  }, [productDetail]);
 
-  const handlePressAddToCart = () => {
-    
-  };
+  const detail: IProduct = productDetail as IProduct;
 
   return (
     <>
@@ -99,6 +106,7 @@ const PoductDetailScreen: React.FC<IDetailScreenProps> = props => {
                 </Text>
                 <View style={{marginTop: 4}}>
                   <Text
+                    numberOfLines={3}
                     style={{
                       fontSize: 14,
                       color: Colors.secondary[500],
@@ -114,7 +122,7 @@ const PoductDetailScreen: React.FC<IDetailScreenProps> = props => {
                     style={{
                       fontSize: 16,
                       color: Colors.secondary[600],
-                      fontWeight: 'normal',
+                      fontWeight: '600',
                       marginRight: 8,
                     }}>
                     Thương hiệu:
@@ -122,7 +130,7 @@ const PoductDetailScreen: React.FC<IDetailScreenProps> = props => {
                   <Text
                     style={{
                       fontSize: 16,
-                      color: Colors.secondary[500],
+                      color: Colors.secondary[600],
                       fontWeight: 'normal',
                     }}>
                     {detail?.brand}
@@ -133,7 +141,7 @@ const PoductDetailScreen: React.FC<IDetailScreenProps> = props => {
                     style={{
                       fontSize: 16,
                       color: Colors.secondary[600],
-                      fontWeight: 'normal',
+                      fontWeight: '600',
                       marginRight: 8,
                     }}>
                     Giá bán
@@ -148,6 +156,44 @@ const PoductDetailScreen: React.FC<IDetailScreenProps> = props => {
                     {detail?.price?.toString().prettyMoney() || ''}$
                   </Text>
                 </View>
+                <View style={{marginTop: 8}}>
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      color: Colors.secondary[600],
+                      fontWeight: '600',
+                    }}>
+                    Các size hiện có:
+                  </Text>
+                  <View style={{flexDirection: 'row', marginTop: 12}}>
+                    {(productDetail?.size as number[])?.map((value, index) => (
+                      <TouchableOpacity
+                        onPress={() => setSizeSelected(value)}
+                        style={{
+                          marginRight: 10,
+                          borderColor:
+                            sizeSelected == value
+                              ? Colors.primary[600]
+                              : Colors.secondary[300],
+                          borderWidth: sizeSelected == value ? 2 : 1,
+                          borderRadius: 5,
+                          paddingHorizontal: 10,
+                          paddingVertical: 5,
+                        }}>
+                        <Text
+                          style={{
+                            fontSize: 16,
+                            color:
+                              sizeSelected == value
+                                ? Colors.primary[600]
+                                : Colors.secondary[600],
+                          }}>
+                          {value}
+                        </Text>
+                      </TouchableOpacity>
+                    ))}
+                  </View>
+                </View>
               </View>
             </ScrollView>
           </SafeAreaView>
@@ -160,10 +206,30 @@ const PoductDetailScreen: React.FC<IDetailScreenProps> = props => {
               paddingHorizontal: 24,
               paddingVertical: 12,
             }}>
-            <Button label="Thêm vào giỏ hàng" />
+            <Button
+              label="Thêm vào giỏ hàng"
+              onPress={() => setOpenAddToCartSheet(true)}
+            />
           </View>
         </>
       )}
+
+      {openAddToCartSheet ? (
+        <AddToCartBottomSheet
+          size={sizeSelected}
+          onAddToCart={quantity => {
+            const payload = {
+              productId: productDetail?._id,
+              quantity: quantity,
+              size: sizeSelected,
+            };
+            dispatchAddProductToCart(payload);
+            setOpenAddToCartSheet(false);
+          }}
+          isOpen={openAddToCartSheet}
+          onClose={() => setOpenAddToCartSheet(false)}
+        />
+      ) : null}
     </>
   );
 };

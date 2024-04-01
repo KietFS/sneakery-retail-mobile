@@ -15,7 +15,27 @@ import {cartReducerActions} from '../../../store/cart/slice';
 interface ICartScreenProps {}
 
 const Cart: React.FC<ICartScreenProps> = props => {
-  return <View></View>;
+  const {cartItems, dispatchGetCartItems} = useCart();
+
+  useEffect(() => {
+    dispatchGetCartItems();
+  }, []);
+
+  return (
+    <SafeAreaView>
+      {cartItems?.length == 0 ? (
+        <Empty />
+      ) : (
+        <View>
+          {cartItems?.map((cart, cartIndex) => (
+            <View>
+              <Text>{cart?._id}</Text>
+            </View>
+          ))}
+        </View>
+      )}
+    </SafeAreaView>
+  );
 };
 
 const Empty = () => {

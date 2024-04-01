@@ -1,41 +1,24 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../store';
-import {checkOutCart, getCartItems} from '../store/cart/actions';
+import {getCartItems} from '../store/cart/actions';
+import {IAddToCartPayload} from '@/store/@types';
 
 const useCart = () => {
-  const {cartItems, isCheckingOutCart} = useSelector(
+  const {cartItems: storeCartItems, isCheckingOutCart} = useSelector(
     (state: RootState) => state.cartReducer,
   );
-  const {accessToken} = useSelector((state: RootState) => state.authReducer);
   const dispatch = useDispatch();
 
   const dispatchGetCartItems = () => {
-    dispatch(getCartItems({accessToken: accessToken}));
+    dispatch(getCartItems());
   };
 
-  const dispatchCheckOutCart = (
-    orderId: number,
-    balance: number,
-    shippingFee: number,
-    totalPrice: number,
-    token: string,
-  ) => {
-    dispatch(
-      checkOutCart({
-        orderId: orderId,
-        balance: balance,
-        shippingFee: shippingFee,
-        totalPrice: totalPrice,
-        token: token,
-      }),
-    );
-  };
+  const cartItems = storeCartItems as any;
 
   return {
     cartItems,
     dispatchGetCartItems,
-    dispatchCheckOutCart,
     isCheckingOutCart,
   };
 };

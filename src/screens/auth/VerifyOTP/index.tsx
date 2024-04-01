@@ -35,8 +35,6 @@ const VerifyOTPScreen: React.FC<IVerifyOTPScreenProps> = props => {
 
   const route: any = useRoute();
 
-  console.log('route is', route?.params);
-
   const handlePressVerify = () => {
     dispatch(
       postVerifyOTP({

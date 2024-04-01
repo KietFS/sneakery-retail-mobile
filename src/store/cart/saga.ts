@@ -1,45 +1,54 @@
-import {all, put, call, takeEvery, takeLatest} from 'redux-saga/effects';
+import {
+  all,
+  put,
+  call,
+  takeEvery,
+  takeLatest,
+  select,
+} from 'redux-saga/effects';
 import {PayloadAction} from '@reduxjs/toolkit';
-import {checkOutCart, getCartItems} from './actions';
+import {addToCart, getCartItems} from './actions';
 import {cartReducerActions} from './slice';
-import {checkOutService, getCartItems as getCartItemsService} from './services';
+import {
+  addToCartService,
+  getCartItems as getCartItemsService,
+} from './services';
 import {Alert} from 'react-native';
+import {IAddToCartPayload} from '../@types';
 
 function* getCartItemsFromAPI(action: PayloadAction<any>): any {
   yield put(cartReducerActions.setIsGettingCartItems(true));
+  const {accessToken} = yield select(state => state.authReducer);
+  const response = yield call(getCartItemsService, accessToken);
 
-  const response = yield call(getCartItemsService, action.payload.accessToken);
-
-  if (response?.data?.data) {
-    yield put(cartReducerActions.setCartItems(response?.data?.data));
+  if (response?.data?.success) {
+    yield put(cartReducerActions.setCartItems(response?.data?.results));
     yield put(cartReducerActions.setIsGettingCartItems(false));
   } else {
     yield put(cartReducerActions.setIsGettingCartItems(false));
   }
 }
 
-function* checkOutCartToAPI(action: PayloadAction<any>): any {
-  yield put(cartReducerActions.setIsCheckingOutCart(true));
-
-  const response = yield call(
-    checkOutService,
-    action.payload.orderId,
-    action.payload.balance,
-    action.payload.shippingFee,
-    action.payload.totalPrice,
-    action.payload.token,
-  );
-  if (response?.data) {
-    Alert.alert('Đặt hàng thành công');
-    yield put(cartReducerActions.setIsCheckingOutCart(false));
+function* addToCartSaga(action: PayloadAction<IAddToCartPayload>): any {
+  yield put(cartReducerActions.setIsGettingCartItems(true));
+  const {accessToken} = yield select(state => state.authReducer);
+  const response = yield call(addToCartService, accessToken, action.payload);
+  if (response?.data?.success) {
+    Alert.alert(
+      'Thêm sản phẩm vào giỏ hàng thành công' || response?.data?.message,
+    );
+    yield put(cartReducerActions.setIsGettingCartItems(false));
   } else {
-    yield put(cartReducerActions.setIsCheckingOutCart(false));
+    Alert.alert(
+      'Thêm sản phẩm vào giỏ hàng thất bại' || response?.data?.message,
+    );
+    yield put(cartReducerActions.setIsGettingCartItems(false));
   }
 }
 
 export default function* cartSaga(): any {
   yield all([
     yield takeEvery(getCartItems, getCartItemsFromAPI),
-    yield takeLatest(checkOutCart, checkOutCartToAPI),
+    yield takeLatest(addToCart, addToCartSaga),
   ]);
 }

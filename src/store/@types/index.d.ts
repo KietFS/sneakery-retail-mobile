@@ -14,3 +14,9 @@ export interface IUser {
   username: string;
   phoneNumber: string;
 }
+
+export interface IAddToCartPayload {
+  quantity: number;
+  productId: number | string;
+  size: number;
+}

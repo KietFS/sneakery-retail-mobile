@@ -1,14 +1,9 @@
 import {createAction} from '@reduxjs/toolkit';
 import {cartReducerKey} from './slice';
+import {IAddToCartPayload} from '../@types';
 
-export const getCartItems = createAction<{accessToken: string}>(
-  cartReducerKey + '/getCartItems',
+export const getCartItems = createAction(cartReducerKey + '/getCartItems');
+
+export const addToCart = createAction<IAddToCartPayload>(
+  cartReducerKey + '/checkOutCart',
 );
-
-export const checkOutCart = createAction<{
-  orderId: number;
-  balance: number;
-  shippingFee: number;
-  totalPrice: number;
-  token: string;
-}>(cartReducerKey + '/checkOutCart');
