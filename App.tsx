@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {LogBox, useColorScheme} from 'react-native';
+import {LogBox, StatusBar, useColorScheme} from 'react-native';
 
 import './src/translations';
 import ApplicationNavigator from './src/navigators';
@@ -18,6 +18,7 @@ function App(): JSX.Element {
 
   return (
     <StoreProvider store={store}>
+      <StatusBar />
       <PersistGate loading={null} persistor={persistor}>
         <ApplicationNavigator />
       </PersistGate>
