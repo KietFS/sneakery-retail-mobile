@@ -25,5 +25,7 @@ export interface ICartItemRespose extends IAddToCartPayload {
   quantity: number;
   productId: IProduct;
   size: number;
-  totalPrice: number;
+  price: number;
 }
+
+type OrderStatusEnum = 'received' | 'processing' | 'shipping' | 'finished';

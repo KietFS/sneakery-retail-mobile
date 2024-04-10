@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {IAddToCartPayload} from '../@types';
+import {IAddToCartPayload, OrderStatusEnum} from '../@types';
 import {apiURl} from '../../constants';
 
 const getCartItems = async (token: string) => {
@@ -49,4 +49,33 @@ const removeCartItemService = async (token: string, id: string | number) => {
   }
 };
 
-export {getCartItems, addToCartService, removeCartItemService};
+const checkOutCartService = async (
+  token: string,
+  cartId: string[],
+  address: string,
+) => {
+  try {
+    const response = await axios.post(
+      `${apiURl}/orders`,
+      {
+        cartId: cartId,
+        address: address,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    if (response) return response;
+  } catch (error) {
+    console.log('ADD TO CART ERROR', JSON.stringify(error));
+  }
+};
+
+export {
+  getCartItems,
+  addToCartService,
+  removeCartItemService,
+  checkOutCartService,
+};

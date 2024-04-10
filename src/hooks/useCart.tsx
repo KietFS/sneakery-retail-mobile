@@ -1,7 +1,11 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../store';
-import {getCartItems, removeCartItem} from '../store/cart/actions';
+import {
+  checkOutCart,
+  getCartItems,
+  removeCartItem,
+} from '../store/cart/actions';
 import {IAddToCartPayload} from '../store/@types';
 
 const useCart = () => {
@@ -18,10 +22,15 @@ const useCart = () => {
     dispatch(removeCartItem({id: id}));
   };
 
+  const dispatchCheckOutCart = (cartId: string[], address: string) => {
+    dispatch(checkOutCart({cartId, address}));
+  };
+
   return {
     cartItems,
     dispatchGetCartItems,
     dispatchRemoveCartItem,
+    dispatchCheckOutCart,
     isCheckingOutCart,
   };
 };

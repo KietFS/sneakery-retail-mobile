@@ -13,9 +13,9 @@ import axios from 'axios';
 import {cartReducerActions} from '../../../store/cart/slice';
 import CartItemCard from '../../../components/molecules/CartItemCard';
 
-interface ICartScreenProps {}
+interface IOrderScreenProps {}
 
-const Cart: React.FC<ICartScreenProps> = props => {
+const Order: React.FC<IOrderScreenProps> = props => {
   const {
     cartItems,
     dispatchGetCartItems,
@@ -37,22 +37,6 @@ const Cart: React.FC<ICartScreenProps> = props => {
     dispatchRemoveCartItem(id);
   };
 
-  const calculateTotalPrice = () => {
-    let finalTotalPrice = 0;
-    cartItems?.forEach((cart, cartIndex) => {
-      finalTotalPrice = finalTotalPrice + cart?.price;
-    });
-
-    return finalTotalPrice;
-  };
-
-  const handlePressCheckout = () => {
-    dispatchCheckOutCart(
-      cartItems?.map(item => item?._id),
-      '',
-    );
-  };
-
   return (
     <SafeAreaView>
       {cartItems?.length == 0 ? (
@@ -65,32 +49,7 @@ const Cart: React.FC<ICartScreenProps> = props => {
             paddingHorizontal: 20,
             paddingVertical: 20,
           }}>
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            style={{maxHeight: '90%'}}>
-            <Text
-              style={{
-                fontSize: 24,
-                fontWeight: 'bold',
-                color: Colors.secondary[600],
-                marginBottom: 16,
-              }}>
-              Giỏ hàng của bạn
-            </Text>
-            {items?.map((cart, cartIndex) => (
-              <CartItemCard
-                {...cart}
-                onPressRemoveItem={handleRemoveCartItem}
-              />
-            ))}
-          </ScrollView>
-          {/* @ts-ignore */}
-          <Button
-            onPress={handlePressCheckout}
-            label={`Thanh toán - ${calculateTotalPrice()
-              ?.toString()
-              ?.prettyMoney()}$`}
-          />
+          <Text>Order Screen</Text>
         </View>
       )}
     </SafeAreaView>
@@ -136,4 +95,4 @@ const Empty = () => {
   );
 };
 
-export default Cart;
+export default Order;

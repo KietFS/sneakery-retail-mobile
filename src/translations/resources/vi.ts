@@ -57,6 +57,7 @@ export default {
     home: 'Trang chủ',
     search: 'Tìm kiếm',
     cart: 'Giỏ hàng',
+    order: 'Đơn hàng',
     account: 'Tài khoản',
   },
 };

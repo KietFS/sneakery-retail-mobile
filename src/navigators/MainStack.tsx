@@ -17,6 +17,7 @@ import Cart from '../screens/main/Cart';
 import Account from '../screens/main/Account';
 import useTheme from '../hooks/useTheme';
 import {useTranslation} from 'react-i18next';
+import Order from '../screens/main/Order';
 
 const Tab = createBottomTabNavigator();
 
@@ -106,6 +107,33 @@ const MainStack: React.FC<IMainStackProps> = props => {
               <Image source={CartActiveIcon} style={{width: 20, height: 20}} />
             ) : (
               <Image source={CartIcon} style={{width: 20, height: 20}} />
+            ),
+          tabBarActiveBackgroundColor: Colors.primary[50],
+        }}
+      />
+
+      <Tab.Screen
+        name="Order"
+        component={Order}
+        options={{
+          tabBarLabel: props => (
+            <Text
+              style={{
+                color: props.focused
+                  ? Colors.primary[500]
+                  : Colors.secondary[600],
+                fontWeight: '600',
+                fontSize: 12,
+                textAlign: 'center',
+              }}>
+              {t('bottom_tab.order')}
+            </Text>
+          ),
+          tabBarIcon: props =>
+            props.focused ? (
+              <Image source={UserActiveIcon} style={{width: 20, height: 20}} />
+            ) : (
+              <Image source={UserIcon} style={{width: 20, height: 20}} />
             ),
           tabBarActiveBackgroundColor: Colors.primary[50],
         }}

@@ -65,7 +65,28 @@ const CartItemCard: React.FC<ICartItemCardProps> = props => {
               fontWeight: 'bold',
               marginLeft: 8,
             }}>
-            {/* @ts-ignore */}${props.totalPrice.toString().prettyMoney()}
+            {/* @ts-ignore */}${props.price.toString().prettyMoney()}
+          </Text>
+        </View>
+        <View style={{marginTop: 8, flexDirection: 'row'}}>
+          <Text
+            numberOfLines={1}
+            style={{
+              fontSize: 14,
+              color: Colors.secondary[500],
+              fontWeight: '500',
+            }}>
+            Số lượng
+          </Text>
+          <Text
+            numberOfLines={1}
+            style={{
+              fontSize: 14,
+              color: Colors.secondary[600],
+              fontWeight: 'bold',
+              marginLeft: 8,
+            }}>
+            {/* @ts-ignore */}${props.quantity}
           </Text>
         </View>
         <View style={{marginTop: 8, flexDirection: 'row'}}>

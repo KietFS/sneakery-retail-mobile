@@ -54,6 +54,7 @@ export default {
     home: 'Home',
     search: 'Search',
     cart: 'Cart',
+    order: 'Order',
     account: 'Account',
   },
 };

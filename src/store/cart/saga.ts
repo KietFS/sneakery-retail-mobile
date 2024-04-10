@@ -7,10 +7,11 @@ import {
   select,
 } from 'redux-saga/effects';
 import {PayloadAction} from '@reduxjs/toolkit';
-import {addToCart, getCartItems, removeCartItem} from './actions';
+import {addToCart, checkOutCart, getCartItems, removeCartItem} from './actions';
 import {cartReducerActions} from './slice';
 import {
   addToCartService,
+  checkOutCartService,
   getCartItems as getCartItemsService,
   removeCartItemService,
 } from './services';
@@ -68,10 +69,30 @@ function* removeCartItemSaga(action: PayloadAction<{id: string}>): any {
   }
 }
 
+function* checkOutCartSaga(
+  action: PayloadAction<{cartId: string[]; address: string}>,
+): any {
+  const {accessToken} = yield select(state => state.authReducer);
+  const response = yield call(
+    checkOutCartService,
+    accessToken,
+    action.payload.cartId,
+    action.payload.address,
+  );
+  if (response?.data?.success) {
+    Alert.alert('Check out đơn hàng thành công' || response?.data?.message);
+    yield put(getCartItems());
+    yield put(cartReducerActions.setIsGettingCartItems(false));
+  } else {
+    Alert.alert('Check out đơn hàng thất bại' || response?.data?.message);
+  }
+}
+
 export default function* cartSaga(): any {
   yield all([
     yield takeEvery(getCartItems, getCartItemsFromAPI),
     yield takeLatest(addToCart, addToCartSaga),
     yield takeLatest(removeCartItem, removeCartItemSaga),
+    yield takeLatest(checkOutCart, checkOutCartSaga),
   ]);
 }

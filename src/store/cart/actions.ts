@@ -5,9 +5,13 @@ import {IAddToCartPayload} from '../@types';
 export const getCartItems = createAction(cartReducerKey + '/getCartItems');
 
 export const addToCart = createAction<IAddToCartPayload>(
-  cartReducerKey + '/checkOutCart',
+  cartReducerKey + '/addToCart',
 );
 
 export const removeCartItem = createAction<{id: string | number}>(
   cartReducerKey + '/removeCartItem',
+);
+
+export const checkOutCart = createAction<{cartId: string[]; address: string}>(
+  cartReducerKey + '/checkOutCart',
 );
