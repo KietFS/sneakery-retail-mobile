@@ -9,6 +9,8 @@ import CartIcon from '../assets/icons/Cart.png';
 import CartActiveIcon from '../assets/icons/CartActive.png';
 import UserIcon from '../assets/icons/User.png';
 import UserActiveIcon from '../assets/icons/UserActive.png';
+import ClockIcon from '../assets/icons/Clock.png';
+import ClockActiveIcon from '../assets/icons/ClockActive.png';
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Home from '../screens/main/Home';
@@ -131,9 +133,9 @@ const MainStack: React.FC<IMainStackProps> = props => {
           ),
           tabBarIcon: props =>
             props.focused ? (
-              <Image source={UserActiveIcon} style={{width: 20, height: 20}} />
+              <Image source={ClockActiveIcon} style={{width: 20, height: 20}} />
             ) : (
-              <Image source={UserIcon} style={{width: 20, height: 20}} />
+              <Image source={ClockIcon} style={{width: 20, height: 20}} />
             ),
           tabBarActiveBackgroundColor: Colors.primary[50],
         }}

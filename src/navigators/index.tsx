@@ -5,6 +5,7 @@ import Login from '../screens/auth/Login';
 import FirstTime from '../screens/welcome/FirstTime';
 import MainStack from './MainStack';
 import ProductDetailScreen from '../screens/product/DetailScreen';
+import OrderDetail from '../screens/main/Order/OrderDetail';
 
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useAuth} from '../hooks/useAuth';
@@ -83,6 +84,15 @@ const ApplicationNavigator: React.FC<IApplicationNavigatorProps> = props => {
           options={{
             animationEnabled: true,
             ...TransitionPresets.ModalSlideFromBottomIOS,
+          }}
+        />
+
+        <Stack.Screen
+          name="OrderDetail"
+          component={OrderDetail}
+          options={{
+            animationEnabled: true,
+            ...TransitionPresets.SlideFromRightIOS,
           }}
         />
 

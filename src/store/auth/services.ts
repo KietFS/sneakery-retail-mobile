@@ -33,9 +33,10 @@ const registerService = async (
 };
 
 const updateUserProfileService = async (
+  accessToken: string,
   username: string,
   phoneNumber: string,
-  accessToken: string,
+  address?: string,
 ) => {
   try {
     const response = await axios.put(
@@ -43,6 +44,7 @@ const updateUserProfileService = async (
       {
         username: username,
         phoneNumber: phoneNumber,
+        address: address,
       },
       {
         headers: {

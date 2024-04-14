@@ -93,7 +93,6 @@ const LoginScreen: React.FC<ILoginScreenProps> = props => {
                 placeholder={t('login.enter_your_password')}
                 label={t('login.password')}
                 customStyle={[styles.textInput, {marginTop: 8}]}
-                secureTextEntry={true}
                 inputMode="text"
               />
               <Text

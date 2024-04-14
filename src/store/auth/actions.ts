@@ -21,6 +21,7 @@ export const postVerifyOTP = createAction<{
 export const updateUserProfile = createAction<{
   username: string;
   phoneNumber: string;
+  address?: string;
 }>(authReducerKey + '/updateUserProfile');
 
 export const logOutAccount = createAction(authReducerKey + '/logOutAccount');

@@ -86,9 +86,10 @@ function* updateUserProfileSaga(action: PayloadAction<any>): any {
   const {accessToken} = yield select(state => state.authReducer);
   const response = yield call(
     updateUserProfileService,
+    accessToken,
     action.payload.username,
     action.payload.phoneNumber,
-    accessToken,
+    action.payload.address,
   );
 
   if (!!response?.data?.success) {

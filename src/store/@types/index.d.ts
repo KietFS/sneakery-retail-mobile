@@ -13,6 +13,7 @@ export interface IUser {
   email: string;
   username: string;
   phoneNumber: string;
+  address?: string;
 }
 
 export interface IAddToCartPayload {
@@ -28,4 +29,18 @@ export interface ICartItemRespose extends IAddToCartPayload {
   price: number;
 }
 
-type OrderStatusEnum = 'received' | 'processing' | 'shipping' | 'finished';
+export interface IOrderItem {
+  _id: string;
+  userId: IUser;
+  items: ICartItemRespose[];
+  status: OrderStatusEnum;
+  totalPrice: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export type OrderStatusEnum =
+  | 'received'
+  | 'processing'
+  | 'shipping'
+  | 'finished';

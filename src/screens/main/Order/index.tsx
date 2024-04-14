@@ -12,34 +12,25 @@ import {useAuth} from '../../../hooks/useAuth';
 import axios from 'axios';
 import {cartReducerActions} from '../../../store/cart/slice';
 import CartItemCard from '../../../components/molecules/CartItemCard';
+import useOrders from '../../../hooks/useOrders';
+import OrderCard from '../../../components/molecules/OrderCard';
+import {useNavigation} from '@react-navigation/native';
 
 interface IOrderScreenProps {}
 
 const Order: React.FC<IOrderScreenProps> = props => {
-  const {
-    cartItems,
-    dispatchGetCartItems,
-    dispatchRemoveCartItem,
-    dispatchCheckOutCart,
-  } = useCart();
-  const [items, setItems] = useState<any[]>([]);
+  const {orderItems, dispatchGetOrderItems} = useOrders();
   const {Colors} = useTheme();
 
   useEffect(() => {
-    dispatchGetCartItems();
+    dispatchGetOrderItems();
   }, []);
 
-  useEffect(() => {
-    setItems(cartItems);
-  }, [cartItems]);
-
-  const handleRemoveCartItem = async (id: number | string) => {
-    dispatchRemoveCartItem(id);
-  };
+  const navigation = useNavigation();
 
   return (
     <SafeAreaView>
-      {cartItems?.length == 0 ? (
+      {orderItems?.length == 0 ? (
         <Empty />
       ) : (
         <View
@@ -49,7 +40,31 @@ const Order: React.FC<IOrderScreenProps> = props => {
             paddingHorizontal: 20,
             paddingVertical: 20,
           }}>
-          <Text>Order Screen</Text>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            style={{maxHeight: '90%'}}>
+            <Text
+              style={{
+                fontSize: 24,
+                fontWeight: 'bold',
+                color: Colors.secondary[600],
+                marginBottom: 16,
+              }}>
+              Đơn hàng của bạn
+            </Text>
+            {orderItems?.map((order, orderIndex) => (
+              <OrderCard
+                {...order}
+                onPress={order =>
+                  //@ts-ignore
+                  navigation.navigate('OrderDetail', {
+                    id: order?._id,
+                  } as never)
+                }
+              />
+            ))}
+          </ScrollView>
+          {/* @ts-ignore */}
         </View>
       )}
     </SafeAreaView>
