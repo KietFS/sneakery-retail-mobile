@@ -61,4 +61,42 @@ const getProductDetailService = async (id: string) => {
   }
 };
 
-export {getProducts, getProductDetailService, getFilteredProductsService};
+const getProductCommentsService = async (id: string) => {
+  try {
+    const response = await axios.get(`${apiURl}/comments/${id}`);
+    if (response) return response;
+  } catch (error: any) {
+    return error;
+  }
+};
+
+const postCommentOnProductService = async (
+  accessToken: string,
+  id: string,
+  content: string,
+) => {
+  try {
+    const response = await axios.post(
+      `${apiURl}/comments/${id}`,
+      {
+        content: content,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
+    if (response) return response;
+  } catch (error: any) {
+    return error;
+  }
+};
+
+export {
+  getProducts,
+  getProductDetailService,
+  getFilteredProductsService,
+  getProductCommentsService,
+  postCommentOnProductService,
+};

@@ -1,9 +1,10 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {IProduct} from '../@types';
+import {ICommentItem, IProduct} from '../@types';
 
 export interface ProductState {
   //sign in state
   products: IProduct[];
+  productComments: ICommentItem[];
   totalRecords: number;
   filteredProducts: IProduct[];
   productDetail: IProduct | null;
@@ -11,6 +12,8 @@ export interface ProductState {
   isGettingHomePage: boolean;
   isGettingFilteredProduct: boolean;
   isGettingProductDetail: boolean;
+  isGettingProductComments: boolean;
+  isCommentingOnProduct: boolean;
 
   keyword: string | null;
   category: string | null;
@@ -22,6 +25,7 @@ export interface ProductState {
 export const initialState: ProductState = {
   //sign in state
   products: [],
+  productComments: [],
   totalRecords: 0,
   filteredProducts: [],
   productDetail: null,
@@ -29,6 +33,8 @@ export const initialState: ProductState = {
   isGettingHomePage: false,
   isGettingFilteredProduct: false,
   isGettingProductDetail: false,
+  isGettingProductComments: false,
+  isCommentingOnProduct: false,
 
   keyword: null,
   category: null,
@@ -44,6 +50,9 @@ export const productSlice = createSlice({
     setProducts: (state, action) => {
       state.products = action.payload;
     },
+    setProductComments: (state, action) => {
+      state.productComments = action.payload;
+    },
     setTotalRecords: (state, action) => {
       state.totalRecords = action.payload;
     },
@@ -58,6 +67,12 @@ export const productSlice = createSlice({
     },
     setIsGettingProductDetail: (state, action) => {
       state.isGettingProductDetail = action.payload;
+    },
+    setIsGettingProductComment: (state, action) => {
+      state.isGettingProductComments = action.payload;
+    },
+    setIsCommentingOnProduct: (state, action) => {
+      state.isCommentingOnProduct = action.payload;
     },
     setProductDetail: (state, action) => {
       state.productDetail = action.payload;

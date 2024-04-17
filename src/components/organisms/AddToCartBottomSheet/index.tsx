@@ -11,7 +11,7 @@ interface IAddToCartBottomSheetProps {
   isOpen: boolean;
   onClose: () => void;
   onAddToCart: (quantity: number) => void;
-  size: number;
+  size: {size: number; quantity: number};
 }
 
 const AddToCartBottomSheet: React.FC<IAddToCartBottomSheetProps> = props => {
@@ -61,7 +61,7 @@ const AddToCartBottomSheet: React.FC<IAddToCartBottomSheetProps> = props => {
                       fontWeight: 'normal',
                       marginLeft: 4,
                     }}>
-                    {size}
+                    {size.size}
                   </Text>
                 </View>
                 <View style={{marginTop: 12}}>

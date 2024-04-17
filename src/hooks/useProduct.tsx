@@ -2,11 +2,13 @@ import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../store';
 import {
+  commentOnProduct,
   getFilteredProducts,
+  getProductComments,
   getProductDetail,
   getProductHomePages,
 } from '../store/product/actions';
-import {IAddToCartPayload, IProduct} from '../store/@types';
+import {IAddToCartPayload, ICommentItem, IProduct} from '../store/@types';
 import {addToCart} from '../store/cart/actions';
 
 const useProduct = () => {
@@ -14,9 +16,11 @@ const useProduct = () => {
   const {
     products: storedProducts,
     filterProducts: storedFilterProducts,
+    productComments: storedProductComments,
     totalRecords,
     isGettingHomePage,
     isGettingProductDetail,
+    isGettingProductComments,
     productDetail,
 
     keyWord,
@@ -35,6 +39,10 @@ const useProduct = () => {
 
   const dispatchGetProductDetail = (id: string) => {
     dispatch(getProductDetail({id: id}));
+  };
+
+  const dispatchGetProductComments = (id: string) => {
+    dispatch(getProductComments({id: id}));
   };
 
   const dispatchFilterProduct = (
@@ -57,20 +65,25 @@ const useProduct = () => {
     dispatch(addToCart(payload));
   };
 
+  const dispatchCommentOnProduct = (id: string, content: string) => {
+    dispatch(commentOnProduct({content: content, id: id}));
+  };
+
   const products = storedProducts as IProduct[];
   const filteredProducts = storedFilterProducts as IProduct[];
+  const productComments = storedProductComments as ICommentItem[];
 
   return {
-    dispatchGetProductHomePage,
     products,
     totalRecords,
     filteredProducts,
-    isGettingHomePage,
-    dispatchGetProductDetail,
-    dispatchFilterProduct,
-    dispatchAddProductToCart,
-    isGettingProductDetail,
+
     productDetail,
+    productComments,
+
+    isGettingHomePage,
+    isGettingProductDetail,
+    isGettingProductComments,
 
     keyWord,
     priceStart,
@@ -80,6 +93,14 @@ const useProduct = () => {
     brand,
     color,
     size,
+
+    //dispatch
+    dispatchGetProductDetail,
+    dispatchFilterProduct,
+    dispatchAddProductToCart,
+    dispatchGetProductHomePage,
+    dispatchGetProductComments,
+    dispatchCommentOnProduct,
   };
 };
 

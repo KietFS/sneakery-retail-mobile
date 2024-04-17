@@ -1,19 +1,30 @@
-import {takeLatest, all, put, call, takeEvery} from 'redux-saga/effects';
+import {
+  takeLatest,
+  all,
+  put,
+  call,
+  takeEvery,
+  select,
+} from 'redux-saga/effects';
 import {PayloadAction} from '@reduxjs/toolkit';
 import {
   getProductHomePages,
   getProductDetail,
   getFilteredProducts,
+  getProductComments,
+  commentOnProduct,
 } from './actions';
 import {
   getFilteredProductsService,
+  getProductCommentsService,
   getProductDetailService,
   getProducts,
+  postCommentOnProductService,
 } from './services';
 import {productReducerActions} from './slice';
 import {Alert} from 'react-native';
 
-function* getAllProductForHomePage(action: PayloadAction<any>): any {
+function* getAllProductForHomePageSaga(action: PayloadAction<any>): any {
   yield put(productReducerActions.setIsGettingHomePage(true));
   try {
     const response = yield call(
@@ -36,7 +47,7 @@ function* getAllProductForHomePage(action: PayloadAction<any>): any {
   }
 }
 
-function* filterProductFromAPI(action: PayloadAction<any>): any {
+function* filterProductSaga(action: PayloadAction<any>): any {
   yield put(productReducerActions.setIsGettingFilteredProducts(true));
   try {
     const {name, brand, size, category} = action.payload;
@@ -62,7 +73,7 @@ function* filterProductFromAPI(action: PayloadAction<any>): any {
   }
 }
 
-function* getProductDetailFromAPI(action: PayloadAction<any>): any {
+function* getProductDetailSaga(action: PayloadAction<any>): any {
   yield put(productReducerActions.setIsGettingProductDetail(true));
 
   try {
@@ -81,10 +92,57 @@ function* getProductDetailFromAPI(action: PayloadAction<any>): any {
   }
 }
 
+function* getProductCommentsSaga(action: PayloadAction<any>): any {
+  yield put(productReducerActions.setIsGettingProductComment(true));
+
+  try {
+    const response = yield call(getProductCommentsService, action.payload.id);
+
+    if (response?.data?.success) {
+      // console.log('DATA', response?.data?.results?.comments);
+      yield put(productReducerActions.setIsGettingProductComment(false));
+      yield put(
+        productReducerActions.setProductComments(
+          response?.data?.results?.comments,
+        ),
+      );
+      yield put(productReducerActions.setIsGettingProductComment(false));
+    }
+  } catch (error) {
+    yield put(productReducerActions.setIsGettingProductComment(false));
+    console.log('ger product detail erorr', error);
+  }
+}
+
+function* commentOnProductSaga(action: PayloadAction<any>): any {
+  yield put(productReducerActions.setIsCommentingOnProduct(true));
+  const {accessToken} = yield select(state => state.authReducer);
+
+  try {
+    const response = yield call(
+      postCommentOnProductService,
+      accessToken,
+      action.payload.id,
+      action.payload.content,
+    );
+
+    if (response?.data?.success) {
+      Alert.alert('Comment thành công');
+      yield put(getProductComments({id: action.payload.id}));
+      yield put(productReducerActions.setIsCommentingOnProduct(false));
+    }
+  } catch (error) {
+    yield put(productReducerActions.setIsCommentingOnProduct(false));
+    console.log('ger product detail erorr', error);
+  }
+}
+
 export default function* productSaga(): any {
   yield all([
-    yield takeLatest(getFilteredProducts, filterProductFromAPI),
-    yield takeEvery(getProductHomePages, getAllProductForHomePage),
-    yield takeEvery(getProductDetail, getProductDetailFromAPI),
+    yield takeLatest(getFilteredProducts, filterProductSaga),
+    yield takeEvery(getProductHomePages, getAllProductForHomePageSaga),
+    yield takeEvery(getProductDetail, getProductDetailSaga),
+    yield takeEvery(getProductComments, getProductCommentsSaga),
+    yield takeLatest(commentOnProduct, commentOnProductSaga),
   ]);
 }

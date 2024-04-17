@@ -11,6 +11,8 @@ import {IProduct} from '@/store/@types';
 import {useAuth} from '../../../hooks/useAuth';
 import {Button} from '../../../components/atoms';
 import AddToCartBottomSheet from '../../../components/organisms/AddToCartBottomSheet';
+import Comment from '../../../components/molecules/Comment';
+import CommentInput from '../../../components/atoms/CommentInput';
 
 interface IDetailScreenProps {}
 
@@ -19,20 +21,27 @@ const PoductDetailScreen: React.FC<IDetailScreenProps> = props => {
   const {Colors} = useTheme();
   const {
     dispatchGetProductDetail,
+    dispatchAddProductToCart,
+    dispatchGetProductComments,
     isGettingProductDetail,
     productDetail,
-    dispatchAddProductToCart,
+    productComments,
+    isGettingProductComments,
   } = useProduct();
   const [openAddToCartSheet, setOpenAddToCartSheet] = useState<boolean>(false);
-  const [sizeSelected, setSizeSelected] = useState<number | null>(null);
+  const [sizeSelected, setSizeSelected] = useState<{
+    size: number;
+    quantity: number;
+  } | null>(null);
 
   useEffect(() => {
     dispatchGetProductDetail(route.params?.id);
+    dispatchGetProductComments(route.params?.id);
   }, []);
 
   useEffect(() => {
     if (productDetail) {
-      setSizeSelected(productDetail?.size[0]);
+      setSizeSelected(productDetail?.sizes[0]);
     }
   }, [productDetail]);
 
@@ -50,7 +59,7 @@ const PoductDetailScreen: React.FC<IDetailScreenProps> = props => {
               showsVerticalScrollIndicator={false}
               contentContainerStyle={{
                 paddingHorizontal: 16,
-                paddingBottom: 100,
+                paddingBottom: 400,
                 alignItems: 'center',
               }}>
               <Image
@@ -165,12 +174,20 @@ const PoductDetailScreen: React.FC<IDetailScreenProps> = props => {
                     }}>
                     Các size hiện có:
                   </Text>
-                  <View style={{flexDirection: 'row', marginTop: 12}}>
-                    {(productDetail?.size as number[])?.map((value, index) => (
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      marginTop: 12,
+                      flexWrap: 'wrap',
+                    }}>
+                    {(
+                      productDetail?.sizes as {size: number; quantity: number}[]
+                    )?.map((value, index) => (
                       <TouchableOpacity
                         onPress={() => setSizeSelected(value)}
                         style={{
                           marginRight: 10,
+                          marginBottom: 6,
                           borderColor:
                             sizeSelected == value
                               ? Colors.primary[600]
@@ -188,11 +205,40 @@ const PoductDetailScreen: React.FC<IDetailScreenProps> = props => {
                                 ? Colors.primary[600]
                                 : Colors.secondary[600],
                           }}>
-                          {value}
+                          {value.size}
                         </Text>
                       </TouchableOpacity>
                     ))}
                   </View>
+                </View>
+
+                <View style={{marginTop: 16}}>
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      color: Colors.secondary[500],
+                      fontWeight: '600',
+                    }}>
+                    Bình luận về sản phẩm
+                  </Text>
+                  <View style={{marginTop: 12}}></View>
+                  <CommentInput
+                    onPostComment={() => {}}
+                    productId={detail?._id as string}
+                  />
+                  {productComments?.map((comment, commentIndex) => (
+                    <View
+                      style={{
+                        borderColor: Colors.secondary[300],
+                        borderWidth: 1,
+                        paddingHorizontal: 10,
+                        paddingVertical: 4,
+                        borderRadius: 10,
+                        marginBottom: 12,
+                      }}>
+                      <Comment {...comment} />
+                    </View>
+                  ))}
                 </View>
               </View>
             </ScrollView>
@@ -221,7 +267,7 @@ const PoductDetailScreen: React.FC<IDetailScreenProps> = props => {
             const payload = {
               productId: productDetail?._id,
               quantity: quantity,
-              size: sizeSelected,
+              size: sizeSelected.size,
             };
             dispatchAddProductToCart(payload);
             setOpenAddToCartSheet(false);

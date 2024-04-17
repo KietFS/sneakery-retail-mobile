@@ -9,6 +9,14 @@ export const getProductDetail = createAction<{id: string}>(
   productReducerKey + '/getProductDetail',
 );
 
+export const getProductComments = createAction<{id: string}>(
+  productReducerKey + '/getProductComments',
+);
+
+export const commentOnProduct = createAction<{id: string; content: string}>(
+  productReducerKey + '/commentOnProduct',
+);
+
 export const getFilteredProducts = createAction<{
   name?: string;
   brand?: string;

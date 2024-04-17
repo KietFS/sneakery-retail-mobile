@@ -1,4 +1,3 @@
-import useTheme from '../../../../hooks/useTheme';
 import React, {useEffect} from 'react';
 import {Image, SafeAreaView, ScrollView, Text, View} from 'react-native';
 import ArrowLeftIcon from '../../../../assets/icons/ArrowLeft.png';
@@ -9,8 +8,11 @@ import OrderReceivedImage from '../../../../assets/images/OrderReceive.png';
 import OrderProcessingImage from '../../../../assets/images/OrderProcessing.png';
 import OrderShippingImage from '../../../../assets/images/OrderShipping.png';
 import OrderFinishedImage from '../../../../assets/images/OrderFinished.png';
+import {Button} from '../../../../components/atoms';
+
+//hooks
 import useOrders from '../../../../hooks/useOrders';
-import CartItemCard from '../../../../components/molecules/CartItemCard';
+import useTheme from '../../../../hooks/useTheme';
 
 interface IOrderDetailScreenProps {}
 
@@ -195,28 +197,14 @@ const OrderDetail: React.FC<IOrderDetailScreenProps> = props => {
                   '2A Phan Chu Trinh, Hiệp Phú'}
               </Text>
             </View>
-
-            {/* <View
-              style={{
-                marginTop: 8,
-                flexWrap: 'wrap',
-              }}>
-              <Text
-                style={{
-                  color: Colors.secondary[500],
-                  fontWeight: '500',
-                  fontSize: 16,
-                }}>
-                Các sản phẩm:{' '}
-              </Text>
-              <View>
-                {orderDetail?.items?.map((cart, cartIndex) => (
-                  <CartItemCard {...cart} onPressRemoveItem={() => {}} />
-                ))}
-              </View>
-            </View> */}
           </View>
         </ScrollView>
+
+        <Button
+          label="Quay về"
+          variant="primary"
+          onPress={() => navigation.goBack()}
+        />
       </View>
     </SafeAreaView>
   );

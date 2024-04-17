@@ -9,6 +9,11 @@ export interface IProduct {
   size?: number[];
 }
 
+export interface ICommentItem {
+  user: IUser;
+  comment: string;
+}
+
 export interface IUser {
   email: string;
   username: string;
