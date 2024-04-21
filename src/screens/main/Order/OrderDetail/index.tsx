@@ -8,6 +8,9 @@ import OrderReceivedImage from '../../../../assets/images/OrderReceive.png';
 import OrderProcessingImage from '../../../../assets/images/OrderProcessing.png';
 import OrderShippingImage from '../../../../assets/images/OrderShipping.png';
 import OrderFinishedImage from '../../../../assets/images/OrderFinished.png';
+import OrderCanceldImage from '../../../../assets/images/OrderCancel.png';
+import OrderNewImage from '../../../../assets/images/OrderNew.png';
+
 import {Button} from '../../../../components/atoms';
 
 //hooks
@@ -20,32 +23,50 @@ const OrderDetail: React.FC<IOrderDetailScreenProps> = props => {
   const {Colors} = useTheme();
   const navigation = useNavigation();
   const route = useRoute();
-  const {dispatchGetOrderDetail, orderDetail} = useOrders();
+  const {
+    dispatchGetOrderDetail,
+    orderDetail,
+    isCancelingOrder,
+    dispatchCancelOrder,
+  } = useOrders();
 
   const images = {
+    new: OrderNewImage,
     received: OrderReceivedImage,
     processing: OrderProcessingImage,
     shipping: OrderShippingImage,
     finished: OrderFinishedImage,
+    canceled: OrderCanceldImage,
   };
 
   const titles = {
+    new: 'Đơn hàng của bạn đã được tạo mới.',
     received: 'Chúng tôi đã nhận được đơn hàng của bạn',
     processing: 'Chúng tôi đang xử lý đơn hàng của bạn',
     shipping: 'Chúng tôi đang giao đơn hàng của bạn',
     finished: 'Đơn hàng đã được giao đến tay bạn !',
+    canceled: 'Đơn hàng của bạn đã bị hủy',
   };
 
   const descriptions = {
+    new: 'Hãy vui lòng đợi chúng tôi xử lý đơn hàng của bạn',
     received: 'Hãy vui lòng đợi chúng tôi xử lý đơn hàng của bạn',
     processing: 'Hãy vui lòng đợi chúng tôi xử lý đơn hàng của bạn',
     shipping: 'Hãy vui lòng đợi chúng tôi xử lý đơn hàng của bạn',
     finished: 'Hãy vui lòng đợi chúng tôi xử lý đơn hàng của bạn',
+    canceled:
+      'Đơn hàng này đã bị hủy, vui lòng quay trở lại để tiếp tục mua sắm',
   };
 
   useEffect(() => {
     dispatchGetOrderDetail((route.params as any)?.id);
   }, []);
+
+  const handleCancelOrder = () => {
+    dispatchCancelOrder((route.params as any)?.id);
+  };
+
+
 
   return (
     <SafeAreaView style={{backgroundColor: Colors.secondary[50]}}>
@@ -199,12 +220,20 @@ const OrderDetail: React.FC<IOrderDetailScreenProps> = props => {
             </View>
           </View>
         </ScrollView>
-
-        <Button
-          label="Quay về"
-          variant="primary"
-          onPress={() => navigation.goBack()}
-        />
+        {orderDetail?.status == 'new' || orderDetail?.status == 'received' ? (
+          <Button
+            label="Hủy đơn hàng"
+            variant="primary"
+            isLoading={isCancelingOrder}
+            onPress={() => handleCancelOrder()}
+          />
+        ) : (
+          <Button
+            label="Quay về"
+            variant="primary"
+            onPress={() => navigation.goBack()}
+          />
+        )}
       </View>
     </SafeAreaView>
   );

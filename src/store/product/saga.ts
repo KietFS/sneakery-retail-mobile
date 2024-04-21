@@ -127,7 +127,7 @@ function* commentOnProductSaga(action: PayloadAction<any>): any {
     );
 
     if (response?.data?.success) {
-      Alert.alert('Comment thành công');
+      // Alert.alert('Comment thành công');
       yield put(getProductComments({id: action.payload.id}));
       yield put(productReducerActions.setIsCommentingOnProduct(false));
     }

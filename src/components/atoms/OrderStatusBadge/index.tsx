@@ -16,6 +16,7 @@ const OrderStatusBadge: React.FC<IOrderStatusBadgeProps> = props => {
     processing: Colors.warning[200],
     shipping: Colors.warning[200],
     finished: Colors.success[200],
+    canceled: Colors.error[200],
   };
 
   const textColors = {
@@ -23,6 +24,7 @@ const OrderStatusBadge: React.FC<IOrderStatusBadgeProps> = props => {
     processing: Colors.warning[800],
     shipping: Colors.warning[600],
     finished: Colors.success[600],
+    canceled: Colors.error[600],
   };
 
   return (

@@ -7,7 +7,11 @@ import {
   removeCartItem,
 } from '../store/cart/actions';
 import {IAddToCartPayload, IOrderItem} from '../store/@types';
-import {getOrderDetail, getOrderItems} from '../store/order/actions';
+import {
+  cancelOrder,
+  getOrderDetail,
+  getOrderItems,
+} from '../store/order/actions';
 
 const useOrders = () => {
   const {
@@ -15,6 +19,7 @@ const useOrders = () => {
     orderDetail: reducerOrderDetail,
     isGettingOrderItem,
     isGettingOrderDetail,
+    isCancelingOrder,
   } = useSelector((state: RootState) => state.orderReducer);
   const dispatch = useDispatch();
 
@@ -24,6 +29,10 @@ const useOrders = () => {
 
   const dispatchGetOrderDetail = (id: string | number) => {
     dispatch(getOrderDetail({id: id}));
+  };
+
+  const dispatchCancelOrder = (id: string | number) => {
+    dispatch(cancelOrder({id: id}));
   };
 
   const orderItems = reducerOrderItems as IOrderItem[];
@@ -36,10 +45,12 @@ const useOrders = () => {
     //loading
     isGettingOrderItem,
     isGettingOrderDetail,
+    isCancelingOrder,
 
     //actions
     dispatchGetOrderItems,
     dispatchGetOrderDetail,
+    dispatchCancelOrder,
   };
 };
 

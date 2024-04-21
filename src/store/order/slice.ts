@@ -5,7 +5,8 @@ export interface OrderState {
   orderItems: IOrderItem[];
   orderDetail: IOrderItem | null;
 
-  isGettingOrderItem: false;
+  isGettingOrderItem: boolean;
+  isCancelingOrder: boolean;
   isGettingOrderDetail: IOrderItem | null;
 }
 
@@ -13,6 +14,7 @@ export const initialState: OrderState = {
   //sign in state
   orderItems: [],
   isGettingOrderItem: false,
+  isCancelingOrder: false,
   orderDetail: null,
   isGettingOrderDetail: null,
 };
@@ -29,6 +31,9 @@ export const orderSlice = createSlice({
     },
     setIsGettingOrderDetail: (state, action) => {
       state.isGettingOrderDetail = action.payload;
+    },
+    setIsCancelingOrder: (state, action) => {
+      state.isCancelingOrder = action.payload;
     },
     setOrderDetail: (state, action) => {
       state.orderDetail = action.payload;

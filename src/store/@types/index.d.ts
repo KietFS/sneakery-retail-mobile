@@ -45,7 +45,9 @@ export interface IOrderItem {
 }
 
 export type OrderStatusEnum =
+  | 'new'
   | 'received'
   | 'processing'
   | 'shipping'
-  | 'finished';
+  | 'finished'
+  | 'canceled';

@@ -17,7 +17,6 @@ const getOrderItemService = async (token: string) => {
 };
 
 const getOrderDetailService = async (token: string, id: string | number) => {
-  console.log('ID is', id);
   try {
     const response = await axios.get(`${apiURl}/orders/${id}/`, {
       headers: {
@@ -32,4 +31,19 @@ const getOrderDetailService = async (token: string, id: string | number) => {
   }
 };
 
-export {getOrderItemService, getOrderDetailService};
+const cancelOrderService = async (token: string, id: string | number) => {
+  try {
+    const response = await axios.put(`${apiURl}/orders/cancel/${id}/`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (response) {
+      return response;
+    }
+  } catch (error) {
+    console.log('Error', error);
+  }
+};
+
+export {getOrderItemService, getOrderDetailService, cancelOrderService};

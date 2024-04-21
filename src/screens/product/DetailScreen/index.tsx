@@ -47,13 +47,15 @@ const PoductDetailScreen: React.FC<IDetailScreenProps> = props => {
 
   const detail: IProduct = productDetail as IProduct;
 
+  const handleAddToFavouriteProduct = () => {};
+
   return (
     <>
       {isGettingProductDetail ? (
         <DetailLoadingScreen />
       ) : (
         <>
-          <SafeAreaView style={{backgroundColor: 'white', height: '88%'}}>
+          <SafeAreaView style={{backgroundColor: 'white', height: '84%'}}>
             <NavigationHeader title="Product Detail" />
             <ScrollView
               showsVerticalScrollIndicator={false}
@@ -245,16 +247,23 @@ const PoductDetailScreen: React.FC<IDetailScreenProps> = props => {
           </SafeAreaView>
           <View
             style={{
-              height: '12%',
+              height: '14%',
               backgroundColor: 'white',
               borderTopColor: Colors.secondary[200],
               borderTopWidth: 1,
               paddingHorizontal: 24,
               paddingVertical: 12,
+              justifyContent: 'space-between',
             }}>
             <Button
               label="Thêm vào giỏ hàng"
               onPress={() => setOpenAddToCartSheet(true)}
+            />
+            <Button
+              customStyle={{marginTop: 4}}
+              label="Yêu thích sản phẩm"
+              variant="outline"
+              onPress={handleAddToFavouriteProduct}
             />
           </View>
         </>

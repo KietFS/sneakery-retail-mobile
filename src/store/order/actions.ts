@@ -9,3 +9,7 @@ export const getOrderItems = createAction<{}>(
 export const getOrderDetail = createAction<{id: string | number}>(
   orderReducerKey + '/getOrderDetail',
 );
+
+export const cancelOrder = createAction<{id: string | number}>(
+  orderReducerKey + '/cancelOrder',
+);
