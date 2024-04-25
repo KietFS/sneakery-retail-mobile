@@ -7,6 +7,7 @@ import Skeleton from '../../../components/atoms/Skeleton';
 import useProduct from '../../../hooks/useProduct';
 import {FlatList} from 'react-native-gesture-handler';
 import TopSellerHorizontal from '../../../components/organisms/TopSellerHorizontal';
+import {useAuth} from '../../../hooks/useAuth';
 
 interface IHomeScreenProps {}
 
@@ -20,6 +21,7 @@ const Home: React.FC<IHomeScreenProps> = props => {
   } = useProduct();
   const [limit, setLimit] = useState<number>(5);
   const [loadingMore, setLoadingMore] = useState<boolean>(false);
+  const {accessToken} = useAuth();
 
   //handle infinity load
   useEffect(() => {
@@ -31,6 +33,8 @@ const Home: React.FC<IHomeScreenProps> = props => {
       }
     }
   }, [limit, loadingMore]);
+
+  console.log('ACCESS TOKEN', accessToken);
 
   return (
     <SafeAreaView style={{backgroundColor: Colors.secondary[50]}}>

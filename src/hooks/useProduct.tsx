@@ -2,7 +2,9 @@ import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../store';
 import {
+  addToFavouriteProduct,
   commentOnProduct,
+  getFavouriteProduct,
   getFilteredProducts,
   getProductComments,
   getProductDetail,
@@ -17,10 +19,12 @@ const useProduct = () => {
     products: storedProducts,
     filterProducts: storedFilterProducts,
     productComments: storedProductComments,
+    favouriteProducts: stortedFavouriteProducts,
     totalRecords,
     isGettingHomePage,
     isGettingProductDetail,
     isGettingProductComments,
+    isAddingToFavouriteProduct,
     productDetail,
 
     keyWord,
@@ -35,6 +39,10 @@ const useProduct = () => {
 
   const dispatchGetProductHomePage = (page: number, limit: number) => {
     dispatch(getProductHomePages({page: page, limit: limit}));
+  };
+
+  const dispatchGetFavouriteProducts = () => {
+    dispatch(getFavouriteProduct());
   };
 
   const dispatchGetProductDetail = (id: string) => {
@@ -69,12 +77,18 @@ const useProduct = () => {
     dispatch(commentOnProduct({content: content, id: id}));
   };
 
+  const dispatchAddToFavouriteProduct = (id: string) => {
+    dispatch(addToFavouriteProduct({id: id}));
+  };
+
   const products = storedProducts as IProduct[];
   const filteredProducts = storedFilterProducts as IProduct[];
   const productComments = storedProductComments as ICommentItem[];
+  const favouriteProducts = stortedFavouriteProducts as IProduct[];
 
   return {
     products,
+    favouriteProducts,
     totalRecords,
     filteredProducts,
 
@@ -84,6 +98,7 @@ const useProduct = () => {
     isGettingHomePage,
     isGettingProductDetail,
     isGettingProductComments,
+    isAddingToFavouriteProduct,
 
     keyWord,
     priceStart,
@@ -101,6 +116,8 @@ const useProduct = () => {
     dispatchGetProductHomePage,
     dispatchGetProductComments,
     dispatchCommentOnProduct,
+    dispatchAddToFavouriteProduct,
+    dispatchGetFavouriteProducts,
   };
 };
 

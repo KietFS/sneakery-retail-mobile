@@ -16,7 +16,8 @@ import {
   removeCartItemService,
 } from './services';
 import {Alert} from 'react-native';
-import {IAddToCartPayload} from '../@types';
+import {IAddToCartPayload, OrderPaymentType} from '../@types';
+import {getOrderItems} from '../order/actions';
 
 function* getCartItemsFromAPI(action: PayloadAction<any>): any {
   yield put(cartReducerActions.setIsGettingCartItems(true));
@@ -70,7 +71,11 @@ function* removeCartItemSaga(action: PayloadAction<{id: string}>): any {
 }
 
 function* checkOutCartSaga(
-  action: PayloadAction<{cartId: string[]; address: string}>,
+  action: PayloadAction<{
+    cartId: string[];
+    address: string;
+    paymentType?: OrderPaymentType;
+  }>,
 ): any {
   const {accessToken} = yield select(state => state.authReducer);
   const response = yield call(
@@ -78,10 +83,12 @@ function* checkOutCartSaga(
     accessToken,
     action.payload.cartId,
     action.payload.address,
+    action.payload?.paymentType,
   );
   if (response?.data?.success) {
     Alert.alert('Check out đơn hàng thành công' || response?.data?.message);
     yield put(getCartItems());
+    yield put(getOrderItems({}));
     yield put(cartReducerActions.setIsGettingCartItems(false));
   } else {
     Alert.alert('Check out đơn hàng thất bại' || response?.data?.message);

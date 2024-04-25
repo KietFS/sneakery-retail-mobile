@@ -13,8 +13,12 @@ import {
   getFilteredProducts,
   getProductComments,
   commentOnProduct,
+  addToFavouriteProduct,
+  getFavouriteProduct,
 } from './actions';
 import {
+  addToFavouriteProductService,
+  getFavouriteProductsService,
   getFilteredProductsService,
   getProductCommentsService,
   getProductDetailService,
@@ -127,13 +131,55 @@ function* commentOnProductSaga(action: PayloadAction<any>): any {
     );
 
     if (response?.data?.success) {
-      // Alert.alert('Comment thành công');
+      Alert.alert('Comment thành công');
+      
       yield put(getProductComments({id: action.payload.id}));
       yield put(productReducerActions.setIsCommentingOnProduct(false));
     }
   } catch (error) {
     yield put(productReducerActions.setIsCommentingOnProduct(false));
     console.log('ger product detail erorr', error);
+  }
+}
+
+function* addToFavouriteProductSaga(action: PayloadAction<any>): any {
+  yield put(productReducerActions.setIsAddingToFavouriteProduct(true));
+  const {accessToken} = yield select(state => state.authReducer);
+
+  try {
+    const response = yield call(
+      addToFavouriteProductService,
+      accessToken,
+      action.payload.id,
+    );
+
+    if (response?.data?.success) {
+      Alert.alert('Yêu thích sản phẩm thành công');
+      yield put(productReducerActions.setIsAddingToFavouriteProduct(false));
+    }
+  } catch (error) {
+    yield put(productReducerActions.setIsAddingToFavouriteProduct(false));
+    console.log('Add to favourite product failed', error);
+  }
+}
+
+function* getFavouriteProductSaga(action: PayloadAction<any>): any {
+  yield put(productReducerActions.setIsGettingFavouriteProducts(true));
+  const {accessToken} = yield select(state => state.authReducer);
+
+  try {
+    const response = yield call(getFavouriteProductsService, accessToken);
+    if (response?.data?.success) {
+      yield put(productReducerActions.setIsGettingFavouriteProducts(false));
+      yield put(
+        productReducerActions.setFavouriteProducts(
+          response?.data?.results?.products,
+        ),
+      );
+    }
+  } catch (error) {
+    yield put(productReducerActions.setIsGettingFavouriteProducts(false));
+    console.log('Get favourite product failed', error);
   }
 }
 
@@ -144,5 +190,7 @@ export default function* productSaga(): any {
     yield takeEvery(getProductDetail, getProductDetailSaga),
     yield takeEvery(getProductComments, getProductCommentsSaga),
     yield takeLatest(commentOnProduct, commentOnProductSaga),
+    yield takeLatest(addToFavouriteProduct, addToFavouriteProductSaga),
+    yield takeLatest(getFavouriteProduct, getFavouriteProductSaga),
   ]);
 }

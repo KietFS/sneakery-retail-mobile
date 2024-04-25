@@ -20,6 +20,7 @@ import Security from '../screens/main/Account/Security';
 import FilterCategory from '../screens/main/Search/FilterCategory';
 import RegisterScreen from '../screens/auth/Register';
 import VerifyOTPScreen from '../screens/auth/VerifyOTP';
+import FavouritePtoductScreen from '../screens/main/Account/FavouriteProduct';
 const Stack = createStackNavigator();
 
 interface IApplicationNavigatorProps {}
@@ -129,6 +130,13 @@ const ApplicationNavigator: React.FC<IApplicationNavigatorProps> = props => {
         <Stack.Screen
           name="Security"
           component={Security}
+          options={{
+            animationEnabled: true,
+          }}
+        />
+        <Stack.Screen
+          name="FavouriteProduct"
+          component={FavouritePtoductScreen}
           options={{
             animationEnabled: true,
           }}

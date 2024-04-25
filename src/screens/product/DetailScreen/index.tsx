@@ -24,6 +24,9 @@ const PoductDetailScreen: React.FC<IDetailScreenProps> = props => {
     dispatchAddProductToCart,
     dispatchGetProductComments,
     isGettingProductDetail,
+    dispatchCommentOnProduct,
+    dispatchAddToFavouriteProduct,
+    isAddingToFavouriteProduct,
     productDetail,
     productComments,
     isGettingProductComments,
@@ -47,7 +50,9 @@ const PoductDetailScreen: React.FC<IDetailScreenProps> = props => {
 
   const detail: IProduct = productDetail as IProduct;
 
-  const handleAddToFavouriteProduct = () => {};
+  const handleAddToFavouriteProduct = () => {
+    dispatchAddToFavouriteProduct(productDetail?._id);
+  };
 
   return (
     <>
@@ -260,6 +265,7 @@ const PoductDetailScreen: React.FC<IDetailScreenProps> = props => {
               onPress={() => setOpenAddToCartSheet(true)}
             />
             <Button
+              isLoading={isAddingToFavouriteProduct}
               customStyle={{marginTop: 4}}
               label="Yêu thích sản phẩm"
               variant="outline"

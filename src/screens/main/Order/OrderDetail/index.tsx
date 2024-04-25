@@ -66,8 +66,6 @@ const OrderDetail: React.FC<IOrderDetailScreenProps> = props => {
     dispatchCancelOrder((route.params as any)?.id);
   };
 
-
-
   return (
     <SafeAreaView style={{backgroundColor: Colors.secondary[50]}}>
       <View
@@ -214,8 +212,35 @@ const OrderDetail: React.FC<IOrderDetailScreenProps> = props => {
                   fontWeight: '500',
                   fontSize: 16,
                 }}>
-                {orderDetail?.userId?.phoneNumber ||
-                  '2A Phan Chu Trinh, Hiệp Phú'}
+                {orderDetail?.userId?.phoneNumber || 'Không có'}
+              </Text>
+            </View>
+
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginTop: 8,
+                flexWrap: 'wrap',
+              }}>
+              <Text
+                style={{
+                  color: Colors.secondary[500],
+                  fontWeight: '500',
+                  fontSize: 16,
+                }}>
+                Phương thức thanh toán:{' '}
+              </Text>
+              <Text
+                numberOfLines={3}
+                style={{
+                  color: Colors.secondary[500],
+                  fontWeight: '500',
+                  fontSize: 16,
+                }}>
+                {orderDetail?.paymentType == 'cod'
+                  ? 'Nhận tiền khi giao hàng'
+                  : 'Thanh toán qua ví điện tử'}
               </Text>
             </View>
           </View>

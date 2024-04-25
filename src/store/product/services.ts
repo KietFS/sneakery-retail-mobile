@@ -93,10 +93,45 @@ const postCommentOnProductService = async (
   }
 };
 
+const addToFavouriteProductService = async (
+  accessToken: string,
+  id: string,
+) => {
+  try {
+    const response = await axios.post(
+      `${apiURl}/favourite-products/${id}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
+    if (response) return response;
+  } catch (error: any) {
+    return error;
+  }
+};
+
+const getFavouriteProductsService = async (accessToken: string) => {
+  try {
+    const response = await axios.get(`${apiURl}/favourite-products`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    if (response) return response;
+  } catch (error: any) {
+    return error;
+  }
+};
+
 export {
   getProducts,
   getProductDetailService,
   getFilteredProductsService,
   getProductCommentsService,
   postCommentOnProductService,
+  addToFavouriteProductService,
+  getFavouriteProductsService,
 };

@@ -40,6 +40,7 @@ export interface IOrderItem {
   items: ICartItemRespose[];
   status: OrderStatusEnum;
   totalPrice: number;
+  paymentType: OrderPaymentType;
   createdAt: string;
   updatedAt: string;
 }
@@ -51,3 +52,5 @@ export type OrderStatusEnum =
   | 'shipping'
   | 'finished'
   | 'canceled';
+
+export type OrderPaymentType = 'cod' | 'e-wallet';

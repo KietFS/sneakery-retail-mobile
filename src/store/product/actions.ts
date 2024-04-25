@@ -17,6 +17,14 @@ export const commentOnProduct = createAction<{id: string; content: string}>(
   productReducerKey + '/commentOnProduct',
 );
 
+export const addToFavouriteProduct = createAction<{
+  id: string;
+}>(productReducerKey + '/addToFavouriteProduct');
+
+export const getFavouriteProduct = createAction(
+  productReducerKey + '/getFavouriteProduct',
+);
+
 export const getFilteredProducts = createAction<{
   name?: string;
   brand?: string;

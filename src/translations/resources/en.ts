@@ -43,6 +43,7 @@ export default {
   account: {
     shipping_information: 'Shipping Information',
     your_wallet: 'Your Wallet',
+    favourite_products: 'Favourite products',
     language_settings: 'Language Settings',
     term_of_use: 'Terms of Use',
     security_policies: 'Security Policies',

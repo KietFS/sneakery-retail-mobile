@@ -106,6 +106,11 @@ const Account: React.FC<IAccountScreenProps> = props => {
             {t('account.account')}
           </Text>
           <AccountCard
+            title={t('account.favourite_products')}
+            onPress={() => navigation.navigate('FavouriteProduct' as never)}
+            iconSource={require('../../../assets/icons/MapPin.png')}
+          />
+          <AccountCard
             title={t('account.shipping_information')}
             onPress={() => navigation.navigate('EditAddress' as never)}
             iconSource={require('../../../assets/icons/MapPin.png')}

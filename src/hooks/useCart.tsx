@@ -6,7 +6,7 @@ import {
   getCartItems,
   removeCartItem,
 } from '../store/cart/actions';
-import {IAddToCartPayload} from '../store/@types';
+import {IAddToCartPayload, OrderPaymentType} from '../store/@types';
 
 const useCart = () => {
   const {cartItems, isCheckingOutCart} = useSelector(
@@ -22,8 +22,12 @@ const useCart = () => {
     dispatch(removeCartItem({id: id}));
   };
 
-  const dispatchCheckOutCart = (cartId: string[], address: string) => {
-    dispatch(checkOutCart({cartId, address}));
+  const dispatchCheckOutCart = (
+    cartId: string[],
+    address: string,
+    paymentType?: OrderPaymentType,
+  ) => {
+    dispatch(checkOutCart({cartId, address, paymentType}));
   };
 
   return {

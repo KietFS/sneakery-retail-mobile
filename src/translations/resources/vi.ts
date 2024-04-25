@@ -46,6 +46,7 @@ export default {
   account: {
     shipping_information: 'Thông tin giao hàng',
     your_wallet: 'Ví của bạn',
+    favourite_products: 'Sản phẩm yêu thích',
     language_settings: 'Cài đặt ngôn ngữ',
     term_of_use: 'Điều khoản sử dụng',
     security_policies: 'Chính sách bảo mật',

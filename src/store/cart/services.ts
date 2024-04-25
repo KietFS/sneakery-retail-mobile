@@ -53,6 +53,7 @@ const checkOutCartService = async (
   token: string,
   cartId: string[],
   address: string,
+  paymentType?: string,
 ) => {
   try {
     const response = await axios.post(
@@ -60,6 +61,7 @@ const checkOutCartService = async (
       {
         cartId: cartId,
         address: address,
+        paymentType: paymentType,
       },
       {
         headers: {

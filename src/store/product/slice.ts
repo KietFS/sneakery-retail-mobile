@@ -4,6 +4,7 @@ import {ICommentItem, IProduct} from '../@types';
 export interface ProductState {
   //sign in state
   products: IProduct[];
+  favouriteProducts: IProduct[];
   productComments: ICommentItem[];
   totalRecords: number;
   filteredProducts: IProduct[];
@@ -14,6 +15,8 @@ export interface ProductState {
   isGettingProductDetail: boolean;
   isGettingProductComments: boolean;
   isCommentingOnProduct: boolean;
+  isGettingFavouriteProducts: boolean;
+  isAddingToFavouriteProduct: boolean;
 
   keyword: string | null;
   category: string | null;
@@ -25,6 +28,7 @@ export interface ProductState {
 export const initialState: ProductState = {
   //sign in state
   products: [],
+  favouriteProducts: [],
   productComments: [],
   totalRecords: 0,
   filteredProducts: [],
@@ -35,6 +39,8 @@ export const initialState: ProductState = {
   isGettingProductDetail: false,
   isGettingProductComments: false,
   isCommentingOnProduct: false,
+  isGettingFavouriteProducts: false,
+  isAddingToFavouriteProduct: false,
 
   keyword: null,
   category: null,
@@ -49,6 +55,9 @@ export const productSlice = createSlice({
   reducers: {
     setProducts: (state, action) => {
       state.products = action.payload;
+    },
+    setFavouriteProducts: (state, action) => {
+      state.favouriteProducts = action.payload;
     },
     setProductComments: (state, action) => {
       state.productComments = action.payload;
@@ -73,6 +82,12 @@ export const productSlice = createSlice({
     },
     setIsCommentingOnProduct: (state, action) => {
       state.isCommentingOnProduct = action.payload;
+    },
+    setIsGettingFavouriteProducts: (state, action) => {
+      state.isGettingFavouriteProducts = action.payload;
+    },
+    setIsAddingToFavouriteProduct: (state, action) => {
+      state.isAddingToFavouriteProduct = action.payload;
     },
     setProductDetail: (state, action) => {
       state.productDetail = action.payload;

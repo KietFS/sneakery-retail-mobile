@@ -6,12 +6,9 @@ import useCart from '../../../hooks/useCart';
 import {FlatList} from 'react-native-gesture-handler';
 import {ProductHorizontalCard} from '../../../components/molecules';
 import {Button} from '../../../components/atoms';
-import {useDispatch, useSelector} from 'react-redux';
-import {RootState} from '../../../store';
-import {useAuth} from '../../../hooks/useAuth';
-import axios from 'axios';
-import {cartReducerActions} from '../../../store/cart/slice';
 import CartItemCard from '../../../components/molecules/CartItemCard';
+import SelectOrderType from '../../../components/organisms/SelectOrderType';
+import {OrderPaymentType, OrderStatusEnum} from '../../../store/@types';
 
 interface ICartScreenProps {}
 
@@ -24,6 +21,10 @@ const Cart: React.FC<ICartScreenProps> = props => {
   } = useCart();
   const [items, setItems] = useState<any[]>([]);
   const {Colors} = useTheme();
+  const [openSelectOrderType, setOpenSelectOrderType] =
+    useState<boolean>(false);
+  const [orderTypeSelected, setOrderTypeSelected] =
+    useState<OrderPaymentType>('cod');
 
   useEffect(() => {
     dispatchGetCartItems();
@@ -47,53 +48,66 @@ const Cart: React.FC<ICartScreenProps> = props => {
   };
 
   const handlePressCheckout = () => {
-    dispatchCheckOutCart(
-      cartItems?.map(item => item?._id),
-      '',
-    );
+    setOpenSelectOrderType(true);
   };
 
   return (
-    <SafeAreaView>
-      {cartItems?.length == 0 ? (
-        <Empty />
-      ) : (
-        <View
-          style={{
-            height: '100%',
-            justifyContent: 'space-between',
-            paddingHorizontal: 20,
-            paddingVertical: 20,
-          }}>
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            style={{maxHeight: '90%'}}>
-            <Text
-              style={{
-                fontSize: 24,
-                fontWeight: 'bold',
-                color: Colors.secondary[600],
-                marginBottom: 16,
-              }}>
-              Giỏ hàng của bạn
-            </Text>
-            {items?.map((cart, cartIndex) => (
-              <CartItemCard
-                {...cart}
-                onPressRemoveItem={handleRemoveCartItem}
-              />
-            ))}
-          </ScrollView>
-          {/* @ts-ignore */}
-          <Button
-            onPress={handlePressCheckout}
-            label={`Thanh toán - ${calculateTotalPrice()
-              ?.toString()
-              ?.prettyMoney()}$`}
-          />
-        </View>
-      )}
-    </SafeAreaView>
+    <>
+      <SafeAreaView>
+        {cartItems?.length == 0 ? (
+          <Empty />
+        ) : (
+          <View
+            style={{
+              height: '100%',
+              justifyContent: 'space-between',
+              paddingHorizontal: 20,
+              paddingVertical: 20,
+            }}>
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              style={{maxHeight: '90%'}}>
+              <Text
+                style={{
+                  fontSize: 24,
+                  fontWeight: 'bold',
+                  color: Colors.secondary[600],
+                  marginBottom: 16,
+                }}>
+                Giỏ hàng của bạn
+              </Text>
+              {items?.map((cart, cartIndex) => (
+                <CartItemCard
+                  {...cart}
+                  onPressRemoveItem={handleRemoveCartItem}
+                />
+              ))}
+            </ScrollView>
+            {/* @ts-ignore */}
+            <Button
+              onPress={handlePressCheckout}
+              label={`Thanh toán - ${calculateTotalPrice()
+                ?.toString()
+                ?.prettyMoney()}$`}
+            />
+          </View>
+        )}
+      </SafeAreaView>
+      {openSelectOrderType ? (
+        <SelectOrderType
+          onClose={() => setOpenSelectOrderType(true)}
+          isOpen={openSelectOrderType}
+          onSubmit={orderType => {
+            dispatchCheckOutCart(
+              cartItems?.map(item => item?._id),
+              '',
+              orderType,
+            );
+            setOpenSelectOrderType(false);
+          }}
+        />
+      ) : null}
+    </>
   );
 };
 
