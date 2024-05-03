@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1040395951694",
+    "project_id": "sneakery-retail",
+    "storage_bucket": "sneakery-retail.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1040395951694:android:7f3ba9c02aaa6e29d42d1f",
+        "android_client_info": {
+          "package_name": "com.sneakeryretail"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB77goJ6ig3svev2B6oFlQOho6BhgtzOdE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,4 +1,5 @@
 {
   "name": "SneakeryRetail",
-  "displayName": "SneakeryRetail"
+  "displayName": "SneakeryRetail",
+  "jsEngine": "hermes"
 }

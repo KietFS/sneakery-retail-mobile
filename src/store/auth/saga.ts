@@ -54,6 +54,7 @@ function* signIn(action: PayloadAction<any>): any {
 
 function* register(action: PayloadAction<any>): any {
   yield put(authReducerActions.setIsRegisterLoading(true));
+  const {deviceId} = yield select(state => state.authReducer);
 
   const response = yield call(
     registerService,
@@ -61,6 +62,7 @@ function* register(action: PayloadAction<any>): any {
     action.payload.password,
     action.payload.username,
     action.payload?.phoneNumber,
+    deviceId,
   );
 
   if (!!response?.data?.success) {
@@ -81,8 +83,6 @@ function* register(action: PayloadAction<any>): any {
 }
 
 function* updateUserProfileSaga(action: PayloadAction<any>): any {
-  yield put(authReducerActions.setIsRegisterLoading(true));
-
   const {accessToken} = yield select(state => state.authReducer);
   const response = yield call(
     updateUserProfileService,

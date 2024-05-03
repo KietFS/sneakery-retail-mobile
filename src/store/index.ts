@@ -25,6 +25,7 @@ const saveSubsetAuthReducer = createFilter('authReducer', [
   'accessToken',
   'userInfo',
   'accountBalance',
+  'deviceId',
 ]);
 
 const persistConfig = {

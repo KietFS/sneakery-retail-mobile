@@ -1,0 +1,30 @@
+{
+  "message": "Network Error",
+  "name": "AxiosError",
+  "stack": "AxiosError: Network Error\n    at handleError (http://10.0.2.2:8081/index.bundle//&platform=android&dev=true&lazy=true&minify=false&app=com.sneakeryretail&modulesOnly=false&runModule=true:234232:39)\n    at call (native)\n    at dispatchEvent (http://10.0.2.2:8081/index.bundle//&platform=android&dev=true&lazy=true&minify=false&app=com.sneakeryretail&modulesOnly=false&runModule=true:36944:31)\n    at setReadyState (http://10.0.2.2:8081/index.bundle//&platform=android&dev=true&lazy=true&minify=false&app=com.sneakeryretail&modulesOnly=false&runModule=true:36146:33)\n    at __didCompleteResponse (http://10.0.2.2:8081/index.bundle//&platform=android&dev=true&lazy=true&minify=false&app=com.sneakeryretail&modulesOnly=false&runModule=true:35932:29)\n    at apply (native)\n    at anonymous (http://10.0.2.2:8081/index.bundle//&platform=android&dev=true&lazy=true&minify=false&app=com.sneakeryretail&modulesOnly=false&runModule=true:36074:52)\n    at apply (native)\n    at emit (http://10.0.2.2:8081/index.bundle//&platform=android&dev=true&lazy=true&minify=false&app=com.sneakeryretail&modulesOnly=false&runModule=true:2683:40)\n    at call (native)\n    at apply (native)\n    at emit (http://10.0.2.2:8081/index.bundle//&platform=android&dev=true&lazy=true&minify=false&app=com.sneakeryretail&modulesOnly=false&runModule=true:2434:126)\n    at apply (native)\n    at __callFunction (http://10.0.2.2:8081/index.bundle//&platform=android&dev=true&lazy=true&minify=false&app=com.sneakeryretail&modulesOnly=false&runModule=true:3650:38)\n    at anonymous (http://10.0.2.2:8081/index.bundle//&platform=android&dev=true&lazy=true&minify=false&app=com.sneakeryretail&modulesOnly=false&runModule=true:3367:31)\n    at __guard (http://10.0.2.2:8081/index.bundle//&platform=android&dev=true&lazy=true&minify=false&app=com.sneakeryretail&modulesOnly=false&runModule=true:3584:15)\n    at callFunctionReturnFlushedQueue (http://10.0.2.2:8081/index.bundle//&platform=android&dev=true&lazy=true&minify=false&app=com.sneakeryretail&modulesOnly=false&runModule=true:3366:21)",
+  "config": {
+    "transitional": {
+      "silentJSONParsing": true,
+      "forcedJSONParsing": true,
+      "clarifyTimeoutError": false
+    },
+    "adapter": ["xhr", "http"],
+    "transformRequest": [null],
+    "transformResponse": [null],
+    "timeout": 0,
+    "xsrfCookieName": "XSRF-TOKEN",
+    "xsrfHeaderName": "X-XSRF-TOKEN",
+    "maxContentLength": -1,
+    "maxBodyLength": -1,
+    "env": {},
+    "headers": {
+      "Accept": "application/json, text/plain, */*",
+      "Content-Type": "application/json"
+    },
+    "method": "post",
+    "url": "http://localhost:4000/users/register",
+    "data": "{\"username\":\"kiethuynhute\",\"email\":\"20110508@student.hcmute.edu.vn\",\"password\":\"password\",\"phoneNumber\":\"0819190221\"}"
+  },
+  "code": "ERR_NETWORK",
+  "status": null
+}

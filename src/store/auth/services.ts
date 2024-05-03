@@ -18,6 +18,7 @@ const registerService = async (
   password: string,
   username: string,
   phoneNumber?: string,
+  deviceId?: string,
 ) => {
   try {
     const response = await axios.post(`${apiURl}/users/register`, {
@@ -25,6 +26,7 @@ const registerService = async (
       email: email,
       password: password,
       phoneNumber: phoneNumber,
+      deviceId: deviceId,
     });
     if (response) return response;
   } catch (error) {

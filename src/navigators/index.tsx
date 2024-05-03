@@ -21,6 +21,11 @@ import FilterCategory from '../screens/main/Search/FilterCategory';
 import RegisterScreen from '../screens/auth/Register';
 import VerifyOTPScreen from '../screens/auth/VerifyOTP';
 import FavouritePtoductScreen from '../screens/main/Account/FavouriteProduct';
+
+import messaging from '@react-native-firebase/messaging';
+import {useDispatch} from 'react-redux';
+import {authReducerActions} from '../store/auth/slice';
+import {Alert} from 'react-native';
 const Stack = createStackNavigator();
 
 interface IApplicationNavigatorProps {}
@@ -29,6 +34,39 @@ const ApplicationNavigator: React.FC<IApplicationNavigatorProps> = props => {
   const {isAuthenticated} = useAuth();
 
   const initialRoute = isAuthenticated ? 'MAIN' : 'Welcome';
+  const dispatch = useDispatch();
+
+  const getFcmToken = async () => {
+    try {
+      const fcmToken = await messaging().getToken();
+      if (fcmToken) {
+        dispatch(authReducerActions.setDeviceId(fcmToken));
+        console.log('token', fcmToken);
+      } else {
+        console.log('Failed', 'No Token Recived');
+      }
+    } catch (error) {
+      console.log('Failed', 'No Token Recived', error);
+    }
+  };
+
+  async function requestUserPermission() {
+    const authStatus = await messaging().requestPermission();
+    const enabled =
+      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+    if (enabled) {
+      console.log('Authorization status:', authStatus);
+      // Lấy FCM token
+      await getFcmToken();
+    }
+  }
+
+  useEffect(() => {
+    requestUserPermission();
+    getFcmToken();
+  }, []);
 
   return (
     <NavigationContainer ref={navigationRef}>

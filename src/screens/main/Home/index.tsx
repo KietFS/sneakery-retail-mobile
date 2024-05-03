@@ -5,7 +5,7 @@ import {BrandCard, ProductHorizontalCard} from '../../../components/molecules';
 import ProductGrid from '../../../components/organisms/ProductGrid';
 import Skeleton from '../../../components/atoms/Skeleton';
 import useProduct from '../../../hooks/useProduct';
-import {FlatList} from 'react-native-gesture-handler';
+import {FlatList} from 'react-native';
 import TopSellerHorizontal from '../../../components/organisms/TopSellerHorizontal';
 import {useAuth} from '../../../hooks/useAuth';
 
@@ -34,8 +34,6 @@ const Home: React.FC<IHomeScreenProps> = props => {
     }
   }, [limit, loadingMore]);
 
-  console.log('ACCESS TOKEN', accessToken);
-
   return (
     <SafeAreaView style={{backgroundColor: Colors.secondary[50]}}>
       <FlatList
@@ -47,7 +45,7 @@ const Home: React.FC<IHomeScreenProps> = props => {
         }}
         data={products}
         contentContainerStyle={{
-          paddingHorizontal: 16,
+          paddingHorizontal: 8,
           paddingVertical: 16,
         }}
         renderItem={itemProps => (

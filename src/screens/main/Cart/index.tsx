@@ -7,7 +7,7 @@ import {FlatList} from 'react-native-gesture-handler';
 import {ProductHorizontalCard} from '../../../components/molecules';
 import {Button} from '../../../components/atoms';
 import CartItemCard from '../../../components/molecules/CartItemCard';
-import SelectOrderType from '../../../components/organisms/SelectOrderType';
+import ConfirmCheckOutBottomSheetProps from '../../../components/organisms/ConfirmCheckOutBottomSheet';
 import {OrderPaymentType, OrderStatusEnum} from '../../../store/@types';
 
 interface ICartScreenProps {}
@@ -94,7 +94,7 @@ const Cart: React.FC<ICartScreenProps> = props => {
         )}
       </SafeAreaView>
       {openSelectOrderType ? (
-        <SelectOrderType
+        <ConfirmCheckOutBottomSheetProps
           onClose={() => setOpenSelectOrderType(true)}
           isOpen={openSelectOrderType}
           onSubmit={orderType => {

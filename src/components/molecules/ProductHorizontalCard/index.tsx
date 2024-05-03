@@ -70,8 +70,7 @@ const ProductHorizontalCard: React.FC<IProductHorizontalCardProps> = props => {
               fontWeight: 'bold',
               marginLeft: 8,
             }}>
-            {/* @ts-ignore */}
-            ${props.price?.toString().prettyMoney()}
+            {/* @ts-ignore */}${props.price?.toString().prettyMoney()}
           </Text>
         </View>
         <View style={{marginTop: 8, flexDirection: 'row'}}>

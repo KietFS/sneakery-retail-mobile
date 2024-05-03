@@ -252,7 +252,7 @@ const PoductDetailScreen: React.FC<IDetailScreenProps> = props => {
           </SafeAreaView>
           <View
             style={{
-              height: '14%',
+              height: '16%',
               backgroundColor: 'white',
               borderTopColor: Colors.secondary[200],
               borderTopWidth: 1,

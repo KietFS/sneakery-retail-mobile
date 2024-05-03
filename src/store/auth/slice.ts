@@ -7,6 +7,7 @@ export interface AuthState {
   isVerifyOTPLoading: boolean;
   isRegisterLoading: boolean;
   error: string | null;
+  deviceId: string | null;
 
   userInfo: any | null;
   accountBalance: number;
@@ -20,6 +21,7 @@ export const initialState: AuthState = {
   isVerifyOTPLoading: false,
   error: null,
   userInfo: null,
+  deviceId: '',
 
   accountBalance: 0,
 };
@@ -46,6 +48,9 @@ export const authSlice = createSlice({
     },
     setUserInfo: (state, action) => {
       state.userInfo = action.payload;
+    },
+    setDeviceId: (state, action) => {
+      state.deviceId = action.payload;
     },
     reset() {
       return initialState;
