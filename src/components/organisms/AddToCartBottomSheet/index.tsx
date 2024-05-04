@@ -35,7 +35,7 @@ const AddToCartBottomSheet: React.FC<IAddToCartBottomSheetProps> = props => {
       {isOpen ? (
         <BottomSheetCustom
           handleCloseSheet={onClose}
-          snapPoints={['30%']}
+          snapPoints={['34%']}
           children={
             <View
               style={{
@@ -64,7 +64,7 @@ const AddToCartBottomSheet: React.FC<IAddToCartBottomSheetProps> = props => {
                     {size.size}
                   </Text>
                 </View>
-                <View style={{marginTop: 12}}>
+                <View style={{marginTop: 14}}>
                   <Text
                     style={{
                       fontSize: 16,

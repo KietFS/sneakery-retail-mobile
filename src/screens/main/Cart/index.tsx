@@ -9,6 +9,7 @@ import {Button} from '../../../components/atoms';
 import CartItemCard from '../../../components/molecules/CartItemCard';
 import ConfirmCheckOutBottomSheetProps from '../../../components/organisms/ConfirmCheckOutBottomSheet';
 import {OrderPaymentType, OrderStatusEnum} from '../../../store/@types';
+import {useAuth} from '../../../hooks/useAuth';
 
 interface ICartScreenProps {}
 
@@ -25,6 +26,7 @@ const Cart: React.FC<ICartScreenProps> = props => {
     useState<boolean>(false);
   const [orderTypeSelected, setOrderTypeSelected] =
     useState<OrderPaymentType>('cod');
+  const {userInfo} = useAuth();
 
   useEffect(() => {
     dispatchGetCartItems();
@@ -41,7 +43,9 @@ const Cart: React.FC<ICartScreenProps> = props => {
   const calculateTotalPrice = () => {
     let finalTotalPrice = 0;
     cartItems?.forEach((cart, cartIndex) => {
-      finalTotalPrice = finalTotalPrice + cart?.price;
+      if (cart?.isVisible == true) {
+        finalTotalPrice = finalTotalPrice + cart?.price;
+      }
     });
 
     return finalTotalPrice;
@@ -50,6 +54,17 @@ const Cart: React.FC<ICartScreenProps> = props => {
   const handlePressCheckout = () => {
     setOpenSelectOrderType(true);
   };
+
+  const visibleCart = cartItems?.filter(
+    cartItem => cartItem?.isVisible == true,
+  );
+
+  const usableRewardPoints =
+    Number(userInfo?.rewardPoints) > (5 / 100) * Number(calculateTotalPrice())
+      ? (5 / 100) * (Number(calculateTotalPrice()) as any)?.toFixed(0)
+      : null;
+
+  console.log('usableRewardPoints', usableRewardPoints);
 
   return (
     <>
@@ -76,31 +91,39 @@ const Cart: React.FC<ICartScreenProps> = props => {
                 }}>
                 Giỏ hàng của bạn
               </Text>
-              {items?.map((cart, cartIndex) => (
-                <CartItemCard
-                  {...cart}
-                  onPressRemoveItem={handleRemoveCartItem}
-                />
+              {visibleCart?.map((cart, cartIndex) => (
+                <>
+                  {cart?.isVisible ? (
+                    <CartItemCard
+                      {...cart}
+                      onPressRemoveItem={handleRemoveCartItem}
+                    />
+                  ) : null}
+                </>
               ))}
             </ScrollView>
             {/* @ts-ignore */}
-            <Button
-              onPress={handlePressCheckout}
-              label={`Thanh toán - ${calculateTotalPrice()
-                ?.toString()
-                ?.prettyMoney()}$`}
-            />
+            {visibleCart?.length > 0 && (
+              <Button
+                onPress={handlePressCheckout}
+                label={`Thanh toán - ${calculateTotalPrice()
+                  ?.toString()
+                  ?.prettyMoney()}$`}
+              />
+            )}
           </View>
         )}
       </SafeAreaView>
       {openSelectOrderType ? (
         <ConfirmCheckOutBottomSheetProps
-          onClose={() => setOpenSelectOrderType(true)}
+          onClose={() => setOpenSelectOrderType(false)}
           isOpen={openSelectOrderType}
-          onSubmit={orderType => {
+          pointUsed={usableRewardPoints}
+          onSubmit={(orderType, rewardPoints) => {
             dispatchCheckOutCart(
               cartItems?.map(item => item?._id),
               '',
+              rewardPoints,
               orderType,
             );
             setOpenSelectOrderType(false);

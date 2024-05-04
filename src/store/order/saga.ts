@@ -7,13 +7,16 @@ import {
   select,
 } from 'redux-saga/effects';
 import {PayloadAction} from '@reduxjs/toolkit';
-import {cancelOrder, getOrderDetail, getOrderItems} from './actions';
+import {cancelOrder, getOrderDetail, getOrderItems, rateOrder} from './actions';
 import {orderReducerActions} from './slice';
 import {
   cancelOrderService,
   getOrderDetailService,
   getOrderItemService,
+  rateOrderService,
 } from './services';
+import {Alert} from 'react-native';
+import {reloadProfile} from '../auth/actions';
 
 function* getOrderItemsSaga(action: PayloadAction<any>): any {
   yield put(orderReducerActions.setIsGettingOrderItem(true));
@@ -66,10 +69,32 @@ function* cancelOrderSaga(action: PayloadAction<{id: string | number}>): any {
   }
 }
 
+function* rateOrderSaga(
+  action: PayloadAction<{id: string | number; rate: string | number}>,
+): any {
+  const {accessToken, userInfo} = yield select(state => state.authReducer);
+  console.log('USER INFO', userInfo);
+  const response = yield call(
+    rateOrderService,
+    accessToken,
+    action.payload.id,
+    action.payload.rate,
+  );
+
+  if (response?.data?.success) {
+    Alert.alert('Đánh giá đơn hàng thành công');
+    yield put(getOrderDetail({id: action.payload.id}));
+    yield put(reloadProfile({userId: userInfo?.userId}));
+  } else {
+    Alert.alert('Đánh giá đơn hàng thất bại');
+  }
+}
+
 export default function* cartSaga(): any {
   yield all([
     yield takeEvery(getOrderItems, getOrderItemsSaga),
     yield takeLatest(getOrderDetail, getOrderDetailSaga),
     yield takeLatest(cancelOrder, cancelOrderSaga),
+    yield takeLatest(rateOrder, rateOrderSaga),
   ]);
 }

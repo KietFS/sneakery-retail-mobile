@@ -12,12 +12,14 @@ import {
   postRegisterAccount,
   postSignInAccount,
   postVerifyOTP,
+  reloadProfile,
   updateUserProfile,
 } from './actions';
 import {authReducerActions} from './slice';
 import {
   postSignIn,
   registerService,
+  reloadProfileService,
   updateUserProfileService,
   verifyOTPService,
 } from './services';
@@ -43,6 +45,7 @@ function* signIn(action: PayloadAction<any>): any {
     yield put(
       authReducerActions.setUserInfo(response?.data?.message?.info?.user),
     );
+    console.log('USER INFO', response?.data?.message?.info?.user);
     navigateAndSimpleReset('MAIN' as never);
   } else {
     yield put(authReducerActions.setIsSignInLoading(false));
@@ -127,6 +130,16 @@ function* verifyOTP(action: PayloadAction<any>): any {
   }
 }
 
+function* reloadProfileSaga(action: PayloadAction<any>): any {
+  const response = yield call(reloadProfileService, action.payload.userId);
+  if (response?.data?.success) {
+    console.log('HAHAHAHA', response?.data?.message?.info);
+    yield put(authReducerActions.setUserInfo(response?.data?.message?.info));
+  } else {
+    Alert.alert('Update user profile error');
+  }
+}
+
 function* watchPostLogoutAccount() {
   // TODO handle postLogoutApi
   yield put(authReducerActions.setAccessToken(null));
@@ -140,5 +153,6 @@ export default function* authSaga(): any {
     yield takeLatest(updateUserProfile, updateUserProfileSaga),
     yield takeLatest(postVerifyOTP, verifyOTP),
     yield takeLatest(logOutAccount, watchPostLogoutAccount),
+    yield takeEvery(reloadProfile, reloadProfileSaga),
   ]);
 }

@@ -7,11 +7,13 @@ import BottomSheetCustom from '../../molecules/BottomSheetCustom';
 import useTheme from '../../../hooks/useTheme';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {OrderPaymentType, OrderStatusEnum} from '../../../store/@types';
+import {useAuth} from '../../../hooks/useAuth';
 
 interface ConfirmCheckoutBottomSheet {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (orderType: OrderPaymentType) => void;
+  onSubmit: (orderType: OrderPaymentType, rewardPoints?: number) => void;
+  pointUsed: number;
 }
 
 const ConfirmCheckOutBottomSheetProps: React.FC<ConfirmCheckoutBottomSheet> =
@@ -26,6 +28,7 @@ const ConfirmCheckOutBottomSheetProps: React.FC<ConfirmCheckoutBottomSheet> =
         name: 'Thanh toán qua ví điện tử',
       },
     ];
+    const {userInfo} = useAuth();
 
     const {isOpen, onClose, onSubmit} = props;
     const {Colors} = useTheme();
@@ -112,36 +115,43 @@ const ConfirmCheckOutBottomSheetProps: React.FC<ConfirmCheckoutBottomSheet> =
                         fontWeight: '600',
                         color: Colors.secondary[600],
                       }}>
-                      Sử dụng điểm thưởng
+                      Sử dụng điểm thưởng (tối đa 5% giá trị đơn hàng)
                     </Text>
-                    <TouchableOpacity
-                      onPress={() => setIsUseRewards(true)}
-                      style={{
-                        flexDirection: 'row',
-                        paddingVertical: 8,
-                        paddingHorizontal: 16,
-                        marginTop: 12,
-                        height: 50,
-                        alignItems: 'center',
-                        backgroundColor: isUseRewards
-                          ? Colors.secondary[100]
-                          : 'white',
-                      }}>
-                      <Text
+                    {!!props.pointUsed && (
+                      <TouchableOpacity
+                        onPress={() => setIsUseRewards(true)}
                         style={{
-                          fontSize: 14,
-                          color: Colors.secondary[500],
+                          flexDirection: 'row',
+                          paddingVertical: 8,
+                          paddingHorizontal: 16,
+                          marginTop: 12,
+                          height: 50,
+                          alignItems: 'center',
+                          backgroundColor: isUseRewards
+                            ? Colors.secondary[100]
+                            : 'white',
                         }}>
-                        Bạn được giảm $20 cho sản phẩm này
-                      </Text>
-                    </TouchableOpacity>
+                        <Text
+                          style={{
+                            fontSize: 14,
+                            color: Colors.secondary[500],
+                          }}>
+                          Sử dụng {props.pointUsed.toString().prettyMoney()}$
+                          cho sản phẩm này
+                        </Text>
+                      </TouchableOpacity>
+                    )}
                   </View>
                 </View>
 
                 <Button
                   label="Xác nhận"
                   onPress={() => {
-                    onSubmit(orderTypeSelected.id as any);
+                    if (isUseRewards) {
+                      onSubmit(orderTypeSelected.id as any, props.pointUsed);
+                    } else {
+                      onSubmit(orderTypeSelected.id as any);
+                    }
                   }}
                 />
               </View>

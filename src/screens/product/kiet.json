@@ -1,0 +1,34 @@
+[
+  {
+    "__v": 0,
+    "_id": "66351c8cc6df9e5d3caef6eb",
+    "createdAt": "2024-05-03T17:19:08.336Z",
+    "items": ["66351c78c6df9e5d3caef6e2"],
+    "paymentType": "cod",
+    "status": "finished",
+    "totalPrice": 500000,
+    "updatedAt": "2024-05-03T17:22:23.275Z",
+    "userId": {
+      "_id": "663508541ff57a3699807e40",
+      "address": "",
+      "phoneNumber": "0819190111",
+      "username": "kietute111"
+    }
+  },
+  {
+    "__v": 0,
+    "_id": "66352766a00d816a9da0c4c1",
+    "createdAt": "2024-05-03T18:05:26.128Z",
+    "items": ["6635275ba00d816a9da0c4bc"],
+    "paymentType": "cod",
+    "status": "new",
+    "totalPrice": 7900000,
+    "updatedAt": "2024-05-03T18:05:26.128Z",
+    "userId": {
+      "_id": "663508541ff57a3699807e40",
+      "address": "",
+      "phoneNumber": "0819190111",
+      "username": "kietute111"
+    }
+  }
+]

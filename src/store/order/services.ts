@@ -46,4 +46,34 @@ const cancelOrderService = async (token: string, id: string | number) => {
   }
 };
 
-export {getOrderItemService, getOrderDetailService, cancelOrderService};
+const rateOrderService = async (
+  token: string,
+  id: string | number,
+  rate: string | number,
+) => {
+  try {
+    const response = await axios.post(
+      `${apiURl}/orders/rate/${id}/`,
+      {
+        rate: Number(rate),
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    if (response) {
+      return response;
+    }
+  } catch (error) {
+    console.log('Error', error);
+  }
+};
+
+export {
+  getOrderItemService,
+  getOrderDetailService,
+  cancelOrderService,
+  rateOrderService,
+};

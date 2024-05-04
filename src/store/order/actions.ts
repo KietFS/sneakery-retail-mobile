@@ -13,3 +13,8 @@ export const getOrderDetail = createAction<{id: string | number}>(
 export const cancelOrder = createAction<{id: string | number}>(
   orderReducerKey + '/cancelOrder',
 );
+
+export const rateOrder = createAction<{
+  id: string | number;
+  rate: string | number;
+}>(orderReducerKey + '/rateOrder');

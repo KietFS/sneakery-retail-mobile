@@ -38,7 +38,7 @@ const CommentInput: React.FC<ICommentInputProps> = props => {
             color: 'white',
             fontWeight: '600',
           }}>
-          {`${userInfo.username[0]}`.toUpperCase()}
+          {`${userInfo?.username[0]}`.toUpperCase()}
         </Text>
       </View>
 

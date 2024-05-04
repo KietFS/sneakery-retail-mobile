@@ -9,6 +9,7 @@ import {
   getProductComments,
   getProductDetail,
   getProductHomePages,
+  rateProductAction,
 } from '../store/product/actions';
 import {IAddToCartPayload, ICommentItem, IProduct} from '../store/@types';
 import {addToCart} from '../store/cart/actions';
@@ -81,6 +82,10 @@ const useProduct = () => {
     dispatch(addToFavouriteProduct({id: id}));
   };
 
+  const dispatchRateProduct = (id: string, rate: string | number) => {
+    dispatch(rateProductAction({id: id, rate: rate}));
+  };
+
   const products = storedProducts as IProduct[];
   const filteredProducts = storedFilterProducts as IProduct[];
   const productComments = storedProductComments as ICommentItem[];
@@ -110,6 +115,7 @@ const useProduct = () => {
     size,
 
     //dispatch
+    dispatchRateProduct,
     dispatchGetProductDetail,
     dispatchFilterProduct,
     dispatchAddProductToCart,

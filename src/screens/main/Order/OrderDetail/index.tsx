@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Image, SafeAreaView, ScrollView, Text, View} from 'react-native';
 import ArrowLeftIcon from '../../../../assets/icons/ArrowLeft.png';
 import {TouchableOpacity} from 'react-native-gesture-handler';
@@ -16,6 +16,8 @@ import {Button} from '../../../../components/atoms';
 //hooks
 import useOrders from '../../../../hooks/useOrders';
 import useTheme from '../../../../hooks/useTheme';
+import RateOrderBottomSheet from '../../../../components/molecules/RateOrderBottomSheet';
+import dayjs from 'dayjs';
 
 interface IOrderDetailScreenProps {}
 
@@ -29,6 +31,8 @@ const OrderDetail: React.FC<IOrderDetailScreenProps> = props => {
     isCancelingOrder,
     dispatchCancelOrder,
   } = useOrders();
+  const [openRateOrderBottomSheet, setOpenRateOrderBottomSheet] =
+    useState<boolean>(false);
 
   const images = {
     new: OrderNewImage,
@@ -66,201 +70,234 @@ const OrderDetail: React.FC<IOrderDetailScreenProps> = props => {
     dispatchCancelOrder((route.params as any)?.id);
   };
 
+  const shouldCancel = () => {
+    let result = true;
+    let now = Date.now();
+    if (
+      now - dayjs(orderDetail?.createdAt)?.toDate().getTime() >
+      15 * 60 * 1000
+    ) {
+      result = false;
+    }
+
+    return result;
+  };
+
   return (
-    <SafeAreaView style={{backgroundColor: Colors.secondary[50]}}>
-      <View
-        style={{
-          height: '100%',
-          justifyContent: 'space-between',
-          paddingHorizontal: 20,
-          paddingVertical: 20,
-          backgroundColor: Colors.secondary[50],
-        }}>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          style={{maxHeight: '90%'}}>
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Image
-              source={ArrowLeftIcon}
-              style={{height: 35, width: 35, marginRight: 4}}
-            />
-            <Text
-              style={{
-                fontSize: 24,
-                fontWeight: 'bold',
-                color: Colors.secondary[600],
-              }}>
-              Thông tin chi tiết đơn hàng
-            </Text>
-          </TouchableOpacity>
-          <View style={{width: '100%', alignItems: 'center', marginTop: 10}}>
-            <Image
-              style={{height: 300, width: 300}}
-              source={images[orderDetail?.status]}
-              width={100}
-              height={100}
-            />
-          </View>
-
-          <View>
-            <Text
-              style={{
-                color: Colors.secondary[600],
-                fontWeight: '600',
-                fontSize: 18,
-                textAlign: 'center',
-              }}>
-              {titles[orderDetail?.status]}
-            </Text>
-            <Text
-              style={{
-                color: Colors.secondary[500],
-                fontWeight: '500',
-                fontSize: 14,
-                textAlign: 'center',
-                marginTop: 4,
-              }}>
-              {descriptions[orderDetail?.status]}
-            </Text>
-          </View>
-
-          <View
-            style={{
-              marginTop: 20,
-              borderTopWidth: 1,
-              borderColor: Colors.secondary[300],
-              paddingTop: 20,
-            }}>
-            <Text
-              style={{
-                color: Colors.secondary[500],
-                fontWeight: '600',
-                fontSize: 18,
-              }}>
-              Thông tin chi tiết đơn hàng
-            </Text>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginTop: 16,
-              }}>
+    <>
+      <SafeAreaView style={{backgroundColor: Colors.secondary[50]}}>
+        <View
+          style={{
+            height: '100%',
+            justifyContent: 'space-between',
+            paddingHorizontal: 20,
+            paddingVertical: 20,
+            backgroundColor: Colors.secondary[50],
+          }}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            style={{maxHeight: '90%'}}>
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Image
+                source={ArrowLeftIcon}
+                style={{height: 35, width: 35, marginRight: 4}}
+              />
               <Text
                 style={{
-                  color: Colors.secondary[500],
-                  fontWeight: '500',
-                  fontSize: 16,
+                  fontSize: 24,
+                  fontWeight: 'bold',
+                  color: Colors.secondary[600],
                 }}>
-                Giá trị đơn hàng:{' '}
+                Thông tin chi tiết đơn hàng
               </Text>
+            </TouchableOpacity>
+            <View style={{width: '100%', alignItems: 'center', marginTop: 10}}>
+              <Image
+                style={{height: 300, width: 300}}
+                source={images[orderDetail?.status]}
+                width={100}
+                height={100}
+              />
+            </View>
+
+            <View>
               <Text
                 style={{
-                  color: Colors.success[500],
+                  color: Colors.secondary[600],
                   fontWeight: '600',
-                  fontSize: 16,
+                  fontSize: 18,
+                  textAlign: 'center',
                 }}>
-                ${orderDetail?.totalPrice?.toString().prettyMoney()}
+                {titles[orderDetail?.status]}
               </Text>
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginTop: 8,
-                flexWrap: 'wrap',
-              }}>
               <Text
                 style={{
                   color: Colors.secondary[500],
                   fontWeight: '500',
-                  fontSize: 16,
+                  fontSize: 14,
+                  textAlign: 'center',
+                  marginTop: 4,
                 }}>
-                Địa chỉ giao hàng:{' '}
-              </Text>
-              <Text
-                numberOfLines={3}
-                style={{
-                  color: Colors.primary[500],
-                  fontWeight: '500',
-                  fontSize: 16,
-                }}>
-                {orderDetail?.userId?.address || '2A Phan Chu Trinh, Hiệp Phú'}
+                {descriptions[orderDetail?.status]}
               </Text>
             </View>
 
             <View
               style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginTop: 8,
-                flexWrap: 'wrap',
+                marginTop: 20,
+                borderTopWidth: 1,
+                borderColor: Colors.secondary[300],
+                paddingTop: 20,
               }}>
               <Text
                 style={{
                   color: Colors.secondary[500],
-                  fontWeight: '500',
-                  fontSize: 16,
+                  fontWeight: '600',
+                  fontSize: 18,
                 }}>
-                Số điện thoại giao hàng:{' '}
+                Thông tin chi tiết đơn hàng
               </Text>
-              <Text
-                numberOfLines={3}
+              <View
                 style={{
-                  color: Colors.secondary[500],
-                  fontWeight: '500',
-                  fontSize: 16,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  marginTop: 16,
                 }}>
-                {orderDetail?.userId?.phoneNumber || 'Không có'}
-              </Text>
-            </View>
+                <Text
+                  style={{
+                    color: Colors.secondary[500],
+                    fontWeight: '500',
+                    fontSize: 16,
+                  }}>
+                  Giá trị đơn hàng:{' '}
+                </Text>
+                <Text
+                  style={{
+                    color: Colors.success[500],
+                    fontWeight: '600',
+                    fontSize: 16,
+                  }}>
+                  ${orderDetail?.totalPrice?.toString().prettyMoney()}
+                </Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  marginTop: 8,
+                  flexWrap: 'wrap',
+                }}>
+                <Text
+                  style={{
+                    color: Colors.secondary[500],
+                    fontWeight: '500',
+                    fontSize: 16,
+                  }}>
+                  Địa chỉ giao hàng:{' '}
+                </Text>
+                <Text
+                  numberOfLines={3}
+                  style={{
+                    color: Colors.primary[500],
+                    fontWeight: '500',
+                    fontSize: 16,
+                  }}>
+                  {orderDetail?.userId?.address ||
+                    '2A Phan Chu Trinh, Hiệp Phú'}
+                </Text>
+              </View>
 
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginTop: 8,
-                flexWrap: 'wrap',
-              }}>
-              <Text
+              <View
                 style={{
-                  color: Colors.secondary[500],
-                  fontWeight: '500',
-                  fontSize: 16,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  marginTop: 8,
+                  flexWrap: 'wrap',
                 }}>
-                Phương thức thanh toán:{' '}
-              </Text>
-              <Text
-                numberOfLines={3}
+                <Text
+                  style={{
+                    color: Colors.secondary[500],
+                    fontWeight: '500',
+                    fontSize: 16,
+                  }}>
+                  Số điện thoại giao hàng:{' '}
+                </Text>
+                <Text
+                  numberOfLines={3}
+                  style={{
+                    color: Colors.secondary[500],
+                    fontWeight: '500',
+                    fontSize: 16,
+                  }}>
+                  {orderDetail?.userId?.phoneNumber || 'Không có'}
+                </Text>
+              </View>
+
+              <View
                 style={{
-                  color: Colors.secondary[500],
-                  fontWeight: '500',
-                  fontSize: 16,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  marginTop: 8,
+                  flexWrap: 'wrap',
                 }}>
-                {orderDetail?.paymentType == 'cod'
-                  ? 'Nhận tiền khi giao hàng'
-                  : 'Thanh toán qua ví điện tử'}
-              </Text>
+                <Text
+                  style={{
+                    color: Colors.secondary[500],
+                    fontWeight: '500',
+                    fontSize: 16,
+                  }}>
+                  Phương thức thanh toán:{' '}
+                </Text>
+                <Text
+                  numberOfLines={3}
+                  style={{
+                    color: Colors.secondary[500],
+                    fontWeight: '500',
+                    fontSize: 16,
+                  }}>
+                  {orderDetail?.paymentType == 'cod'
+                    ? 'Nhận tiền khi giao hàng'
+                    : 'Thanh toán qua ví điện tử'}
+                </Text>
+              </View>
             </View>
-          </View>
-        </ScrollView>
-        {orderDetail?.status == 'new' || orderDetail?.status == 'received' ? (
-          <Button
-            label="Hủy đơn hàng"
-            variant="primary"
-            isLoading={isCancelingOrder}
-            onPress={() => handleCancelOrder()}
-          />
-        ) : (
+          </ScrollView>
+          {orderDetail?.status == 'new' && shouldCancel() && (
+            <Button
+              label="Hủy đơn hàng"
+              variant="primary"
+              isLoading={isCancelingOrder}
+              onPress={() => handleCancelOrder()}
+            />
+          )}
+          {orderDetail?.status == 'finished' &&
+            Number(orderDetail?.rate) < 1 && (
+              <Button
+                label="Đánh giá đơn hàng"
+                variant="primary"
+                isLoading={false}
+                onPress={() => setOpenRateOrderBottomSheet(true)}
+              />
+            )}
           <Button
             label="Quay về"
-            variant="primary"
+            variant="outline"
+            customStyle={{marginTop: 10}}
             onPress={() => navigation.goBack()}
           />
-        )}
-      </View>
-    </SafeAreaView>
+        </View>
+      </SafeAreaView>
+
+      {openRateOrderBottomSheet ? (
+        <RateOrderBottomSheet
+          orderId={orderDetail?._id}
+          isOpen={openRateOrderBottomSheet}
+          onClose={() => setOpenRateOrderBottomSheet(false)}
+        />
+      ) : null}
+    </>
   );
 };
 

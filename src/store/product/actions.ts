@@ -24,6 +24,10 @@ export const addToFavouriteProduct = createAction<{
 export const getFavouriteProduct = createAction(
   productReducerKey + '/getFavouriteProduct',
 );
+export const rateProductAction = createAction<{
+  id: string;
+  rate: number | string;
+}>(productReducerKey + '/rateProductAction');
 
 export const getFilteredProducts = createAction<{
   name?: string;

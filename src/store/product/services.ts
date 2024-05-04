@@ -126,6 +126,29 @@ const getFavouriteProductsService = async (accessToken: string) => {
   }
 };
 
+const rateProductService = async (
+  accessToken: string,
+  productId: string,
+  rate: string | number,
+) => {
+  try {
+    const response = await axios.post(
+      `${apiURl}/products/rate/${productId}`,
+      {
+        rate: Number(rate),
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
+    if (response) return response;
+  } catch (error: any) {
+    return error;
+  }
+};
+
 export {
   getProducts,
   getProductDetailService,
@@ -134,4 +157,5 @@ export {
   postCommentOnProductService,
   addToFavouriteProductService,
   getFavouriteProductsService,
+  rateProductService,
 };

@@ -43,6 +43,7 @@ export interface IOrderItem {
   paymentType: OrderPaymentType;
   createdAt: string;
   updatedAt: string;
+  rate?: number;
 }
 
 export type OrderStatusEnum =

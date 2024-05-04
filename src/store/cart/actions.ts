@@ -15,5 +15,6 @@ export const removeCartItem = createAction<{id: string | number}>(
 export const checkOutCart = createAction<{
   cartId: string[];
   address: string;
+  rewardPoints?: number;
   paymentType?: OrderPaymentType;
 }>(cartReducerKey + '/checkOutCart');

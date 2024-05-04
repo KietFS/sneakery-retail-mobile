@@ -26,6 +26,8 @@ const Account: React.FC<IAccountScreenProps> = props => {
     useState<boolean>(false);
   const {i18n, t} = useTranslation();
 
+  console.log('USER INFO');
+
   return (
     <SafeAreaView style={{backgroundColor: 'white'}}>
       <ScrollView
@@ -72,7 +74,7 @@ const Account: React.FC<IAccountScreenProps> = props => {
                   color: Colors.secondary[500],
                   fontWeight: 'bold',
                 }}>
-                {userInfo.username}
+                {userInfo?.username}
               </Text>
               <Text
                 style={{
@@ -81,7 +83,16 @@ const Account: React.FC<IAccountScreenProps> = props => {
                   fontWeight: 'normal',
                   marginTop: 8,
                 }}>
-                {userInfo.email}
+                {userInfo?.email}
+              </Text>
+              <Text
+                style={{
+                  fontSize: 14,
+                  color: Colors.secondary[400],
+                  fontWeight: 'normal',
+                  marginTop: 8,
+                }}>
+                Điểm tích lũy: {userInfo?.rewardPoints || 12}
               </Text>
             </View>
           </View>

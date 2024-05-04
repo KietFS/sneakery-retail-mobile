@@ -24,4 +24,8 @@ export const updateUserProfile = createAction<{
   address?: string;
 }>(authReducerKey + '/updateUserProfile');
 
+export const reloadProfile = createAction<{
+  userId: string;
+}>(authReducerKey + '/reloadProfile');
+
 export const logOutAccount = createAction(authReducerKey + '/logOutAccount');

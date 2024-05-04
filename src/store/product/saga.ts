@@ -15,6 +15,7 @@ import {
   commentOnProduct,
   addToFavouriteProduct,
   getFavouriteProduct,
+  rateProductAction,
 } from './actions';
 import {
   addToFavouriteProductService,
@@ -24,9 +25,11 @@ import {
   getProductDetailService,
   getProducts,
   postCommentOnProductService,
+  rateProductService,
 } from './services';
 import {productReducerActions} from './slice';
 import {Alert} from 'react-native';
+import {reloadProfile, updateUserProfile} from '../auth/actions';
 
 function* getAllProductForHomePageSaga(action: PayloadAction<any>): any {
   yield put(productReducerActions.setIsGettingHomePage(true));
@@ -88,7 +91,6 @@ function* getProductDetailSaga(action: PayloadAction<any>): any {
       yield put(
         productReducerActions.setProductDetail(response?.data?.results),
       );
-      yield put(productReducerActions.setIsGettingProductDetail(false));
     }
   } catch (error) {
     yield put(productReducerActions.setIsGettingProductDetail(false));
@@ -183,6 +185,27 @@ function* getFavouriteProductSaga(action: PayloadAction<any>): any {
   }
 }
 
+function* rateProductSaga(action: PayloadAction<any>): any {
+  const {accessToken, userInfo} = yield select(state => state.authReducer);
+  try {
+    const response = yield call(
+      rateProductService,
+      accessToken,
+      action.payload.id,
+      action.payload.rate,
+    );
+
+    if (response?.data?.success) {
+      Alert.alert('Đánh giá sản phẩm thành công');
+      yield put(getProductDetail({id: action.payload.id}));
+      // yield put(reloadProfile({userId: userInfo?.userId}));
+    }
+  } catch (error) {
+    Alert.alert('Đánh giá sản phẩm thất bại');
+    console.log('Rate product error', error);
+  }
+}
+
 export default function* productSaga(): any {
   yield all([
     yield takeLatest(getFilteredProducts, filterProductSaga),
@@ -192,5 +215,6 @@ export default function* productSaga(): any {
     yield takeLatest(commentOnProduct, commentOnProductSaga),
     yield takeLatest(addToFavouriteProduct, addToFavouriteProductSaga),
     yield takeLatest(getFavouriteProduct, getFavouriteProductSaga),
+    yield takeLatest(rateProductAction, rateProductSaga),
   ]);
 }

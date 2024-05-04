@@ -13,6 +13,9 @@ import {Button} from '../../../components/atoms';
 import AddToCartBottomSheet from '../../../components/organisms/AddToCartBottomSheet';
 import Comment from '../../../components/molecules/Comment';
 import CommentInput from '../../../components/atoms/CommentInput';
+import useOrders from '../../../hooks/useOrders';
+import useCart from '../../../hooks/useCart';
+import RateProductBottomSheet from '../../../components/molecules/RateProductBottomSheet';
 
 interface IDetailScreenProps {}
 
@@ -31,7 +34,12 @@ const PoductDetailScreen: React.FC<IDetailScreenProps> = props => {
     productComments,
     isGettingProductComments,
   } = useProduct();
+  const {orderItems} = useOrders();
+  const {cartItems} = useCart();
+  const {userInfo} = useAuth();
   const [openAddToCartSheet, setOpenAddToCartSheet] = useState<boolean>(false);
+  const [openRateProductBottomSheet, setOpenRateProductBottomSheet] =
+    useState<boolean>(false);
   const [sizeSelected, setSizeSelected] = useState<{
     size: number;
     quantity: number;
@@ -52,6 +60,17 @@ const PoductDetailScreen: React.FC<IDetailScreenProps> = props => {
 
   const handleAddToFavouriteProduct = () => {
     dispatchAddToFavouriteProduct(productDetail?._id);
+  };
+
+  const isReviewAvailable = () => {
+    let result = false;
+    cartItems.map((cartItem, cartItemIndex) => {
+      if (cartItem.productId?._id == productDetail?._id) {
+        result = true;
+      }
+    });
+
+    return result;
   };
 
   return (
@@ -264,13 +283,41 @@ const PoductDetailScreen: React.FC<IDetailScreenProps> = props => {
               label="Thêm vào giỏ hàng"
               onPress={() => setOpenAddToCartSheet(true)}
             />
-            <Button
-              isLoading={isAddingToFavouriteProduct}
-              customStyle={{marginTop: 4}}
-              label="Yêu thích sản phẩm"
-              variant="outline"
-              onPress={handleAddToFavouriteProduct}
-            />
+            {false ? (
+              <View
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  width: '100%',
+                  rowGap: 4,
+                  marginTop: 4,
+                }}>
+                <View style={{width: '48%'}}>
+                  <Button
+                    label="Đánh giá"
+                    variant="outline"
+                    onPress={() => setOpenRateProductBottomSheet(true)}
+                  />
+                </View>
+                <View style={{width: '48%'}}>
+                  <Button
+                    isLoading={isAddingToFavouriteProduct}
+                    label="Yêu thích"
+                    variant="outline"
+                    onPress={handleAddToFavouriteProduct}
+                  />
+                </View>
+              </View>
+            ) : (
+              <Button
+                isLoading={isAddingToFavouriteProduct}
+                label="Yêu thích"
+                variant="outline"
+                onPress={handleAddToFavouriteProduct}
+              />
+            )}
           </View>
         </>
       )}
@@ -289,6 +336,14 @@ const PoductDetailScreen: React.FC<IDetailScreenProps> = props => {
           }}
           isOpen={openAddToCartSheet}
           onClose={() => setOpenAddToCartSheet(false)}
+        />
+      ) : null}
+
+      {openRateProductBottomSheet ? (
+        <RateProductBottomSheet
+          productId={productDetail?._id}
+          isOpen={openRateProductBottomSheet}
+          onClose={() => setOpenRateProductBottomSheet(false)}
         />
       ) : null}
     </>

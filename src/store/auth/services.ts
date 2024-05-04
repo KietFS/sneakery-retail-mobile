@@ -70,9 +70,19 @@ const verifyOTPService = async (userId: string, code: string) => {
   }
 };
 
+const reloadProfileService = async (userId: string) => {
+  try {
+    const response = await axios.get(`${apiURl}/users/${userId}`);
+    if (response) return response;
+  } catch (error) {
+    console.log('Reload profile error', JSON.stringify(error));
+  }
+};
+
 export {
   postSignIn,
   registerService,
   verifyOTPService,
   updateUserProfileService,
+  reloadProfileService,
 };

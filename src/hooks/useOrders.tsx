@@ -11,6 +11,7 @@ import {
   cancelOrder,
   getOrderDetail,
   getOrderItems,
+  rateOrder,
 } from '../store/order/actions';
 
 const useOrders = () => {
@@ -34,6 +35,9 @@ const useOrders = () => {
   const dispatchCancelOrder = (id: string | number) => {
     dispatch(cancelOrder({id: id}));
   };
+  const dispatchRateOrder = (id: string | number, rate: string | number) => {
+    dispatch(rateOrder({id: id, rate: rate}));
+  };
 
   const orderItems = reducerOrderItems as IOrderItem[];
   const orderDetail = reducerOrderDetail as IOrderItem;
@@ -48,6 +52,7 @@ const useOrders = () => {
     isCancelingOrder,
 
     //actions
+    dispatchRateOrder,
     dispatchGetOrderItems,
     dispatchGetOrderDetail,
     dispatchCancelOrder,

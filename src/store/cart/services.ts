@@ -53,6 +53,7 @@ const checkOutCartService = async (
   token: string,
   cartId: string[],
   address: string,
+  rewardPoints?: number,
   paymentType?: string,
 ) => {
   try {
@@ -61,6 +62,7 @@ const checkOutCartService = async (
       {
         cartId: cartId,
         address: address,
+        rewardPoints: rewardPoints,
         paymentType: paymentType,
       },
       {

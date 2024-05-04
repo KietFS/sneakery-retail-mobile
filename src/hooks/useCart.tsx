@@ -25,9 +25,10 @@ const useCart = () => {
   const dispatchCheckOutCart = (
     cartId: string[],
     address: string,
+    rewardPoints?: number,
     paymentType?: OrderPaymentType,
   ) => {
-    dispatch(checkOutCart({cartId, address, paymentType}));
+    dispatch(checkOutCart({cartId, address, rewardPoints, paymentType}));
   };
 
   return {
